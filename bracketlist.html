@@ -1,0 +1,39 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body>
+
+	{% include header.html %}
+    
+    <table id="brackets" class="sortable">
+        <thead>
+        <tr>
+            <th>Event</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Prized</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="bracket-example-1.html"><div>Example 1</div></a></td>
+            <td><a href=""><div>A1</div></a></td>
+            <td><a href=""><div>Incomplete</div></a></td>
+            <td><a href=""><div>Incomplete</div></a></td>
+        </tr>
+        <tr>
+            <td><a href=""><div>Example 2</div></a></td>
+            <td><a href=""><div>A2</div></a></td>
+            <td><a href=""><div>Complete</div></a></td>
+            <td><a href=""><div>Complete</div></a></td>
+        </tr>
+        </tbody>
+    </table>
+	
+	{% include footer.html %}
+	
+    {% include scripts.html %}
+</body>
+</html>
