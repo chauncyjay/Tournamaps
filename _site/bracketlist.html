@@ -8,16 +8,17 @@
 </head>
 <body>
 
-	<header>
-	<div class="logo"><a href="index.html">HOME</a></div>
-	
-	<nav>
-		<a href="command.html">Command</a>
-		<a href="bracketlist.html">Brackets</a>
-		<a href="map.html">Map</a>
-		<a href="import.html">Import</a>
-	</nav>
-</header>
+	<div class="header">
+    <div class="logo"><a href="index.html">HOME</a></div>
+
+    <nav>
+        <a href="command.html">Command</a>
+        <a href="bracketlist.html">Brackets</a>
+        <a href="map.html">Map</a>
+        <a href="import.html">Import</a>
+        <a href="search.html">Search</a>
+    </nav>
+</div>
     
     <table id="brackets" class="sortable">
         <thead>
@@ -30,30 +31,62 @@
         </thead>
         <tbody>
         <tr>
-            <td><a href="bracket-example-1.html"><div>Example 1</div></a></td>
-            <td><a href=""><div>A1</div></a></td>
-            <td><a href=""><div>Incomplete</div></a></td>
-            <td><a href=""><div>Incomplete</div></a></td>
+            <td>
+                <div onclick="location.href='bracket-example-1.html'">Example 1</div>
+            </td>
+            <td>
+                <div onclick="location.href='map.html'">A1</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Incomplete</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Incomplete</div>
+            </td>
         </tr>
         <tr>
-            <td><a href=""><div>Example 2</div></a></td>
-            <td><a href=""><div>A2</div></a></td>
-            <td><a href=""><div>Complete</div></a></td>
-            <td><a href=""><div>Complete</div></a></td>
+            <td>
+                <div onclick="location.href='bracket-example-1.html'">Example 2</div>
+            </td>
+            <td>
+                <div onclick="location.href='map.html'">A2</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Complete</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Complete</div>
+            </td>
         </tr>
+        <tr>
+            <td>
+                <div onclick="location.href='bracket-example-1.html'">Example 3</div>
+            </td>
+            <td>
+                <div onclick="location.href='map.html'">B1</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Complete</div>
+            </td>
+            <td>
+                <div onclick="location.href=''">Incomplete</div>
+            </td>
+        </tr>
+        
         </tbody>
     </table>
 	
-	<footer>
-	<div class="logo"><a href="index.html">HOME</a></div>
-	
-	<nav>
-		<a href="command.html">Command</a>
-		<a href="bracketlist.html">Brackets</a>
-		<a href="map.html">Map</a>
-		<a href="import.html">Import</a>
-	</nav>
-</footer>
+	<div class="footer">
+    <div class="logo"><a href="index.html">HOME</a></div>
+
+    <nav>
+        <a href="command.html">Command</a>
+        <a href="bracketlist.html">Brackets</a>
+        <a href="map.html">Map</a>
+        <a href="import.html">Import</a>
+        <a href="search.html">Search</a>
+    </nav>
+</div>
 	
     <script type="text/javascript" src="assets/js/jquery-3.1.1.js"></script>
 <script type="text/javascript" src="assets/js/sorttable.js"></script>
