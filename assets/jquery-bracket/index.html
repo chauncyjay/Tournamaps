@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--[if ie]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery Bracket</title>
+<meta name="description" content="jQuery plugin for visualizing and editing single and double elimination tournament brackets" />
+<script type="text/javascript" src="site/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="site/jquery-ui-1.8.16/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="site/jquery.json-2.2.min.js"></script>
+<script type="text/javascript" src="site/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+<script type="text/javascript" src="site/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="site/syntaxhighlighter_3.0.83/scripts/shBrushXml.js"></script>
+<link rel="stylesheet" type="text/css" href="site/syntaxhighlighter_3.0.83/styles/shCoreDefault.css"/>
+<link rel="stylesheet" type="text/css" href="site/jquery-ui-1.8.16/css/ui-lightness/jquery-ui-1.8.16.custom.css" />
+<link rel="stylesheet" type="text/css" href="site/jquery.bracket-site.css" />
+
+<link rel="stylesheet" type="text/css" href="jquery-bracket/dist/jquery.bracket.css" />
+<script type="text/javascript" src="jquery-bracket/dist/jquery.bracket.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    var demos = ['save', 'minimal', 'matches', 'customHandlers', 'autoComplete', 'doubleElimination', 'noSecondaryFinal', 'noConsolationRound', 'reverseBracket', 'big']
+    $.each(demos, function(i, d){
+      var demo = $('div#'+d)
+      $('<div class="demo"></div>').appendTo(demo)
+      var pre = $('<pre name="code" class="js"></pre>').appendTo(demo)
+      var script = demo.find('script')
+      demo.find("h3").append($('<a href="#' + d + '">¶</a>'))
+      pre.text(script.html())
+    })
+  })
+</script>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-1488867-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</head>
+<body>
+<div id="main">
+<h1>jQuery Bracket library [<a href="http://aropupu.fi/bracket-server/">server</a>]</h1>
+<p>jQuery bracket is a <a href="http://www.jquery.com/">jQuery plugin</a> that
+lets users create and display
+<a href="http://en.wikipedia.org/wiki/Bracket_(tournament)">single and double
+elimination brackets</a> for tournament play.</p>
+<p>Feedback can be sent via mail to teijo(a)aropupu.fi or via IRC to Aroppuu @
+IRC/Quakenet. If you've found use for this script, I'd be happy to hear about
+it. Drop me a link and let me know if it can be shared on this project
+page.</p>
+<div class="note"><span>NEW</span>Need a tool for round-robin tournament groups? <a href="/group">Check out the new jQuery Group library</a> that's under development!</div>
+<h2>Download</h2>
+<p>Get the code from <a href="https://github.com/teijo/jquery-bracket/tree/master/dist">GitHub repository</a>.</p>
+
+<h2>Examples</h2>
+To try most of the examples use these includes:
+<pre class="html">
+&lt;script type="text/javascript" src="jquery-1.6.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="jquery.bracket.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" type="text/css" href="jquery.bracket.min.css" /&gt;
+</pre>
+
+<h3 id="dataStructure">Data structure</h3>
+<p>The bracket information is stored into a single object. Contents of the object
+determine what is rendered. Play with the <a href="#save">save functionality
+demo</a> and check the input data for other demos.</p>
+<ul>
+  <li>Number of team pairs determines the size of the bracket. Bracket size is
+  always power of two (2, 4, 8...).</li>
+  <li>Number of result lists determines the tournament type. One list indicates
+  single elimination. Three (winners, losers and finals) indicates double
+  elimination.</li>
+  <li>null instead of a number indicates empty result.</li>
+</ul>
+<p>Unfortunately there is currently no example algorithm to map specific result
+into a team pair in case you would need to store the information in different
+format. Solving team names for anything else than first round requires you to
+calculate the whole tournament tree.</p>
+<pre class="js">
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"]  // Second match
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4]            // Team 3 vs Team 4
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [5, 6],           // Match for first place
+        [7, 8]            // Match for 3rd place
+      ]
+    ]
+  ]
+}
+
+var doubleElimination = {
+  "teams": [
+    ["Team 1", "Team 2"],
+    ["Team 3", "Team 4"]
+  ],
+  "results": [            // List of brackets (three since this is double elimination)
+    [                     // Winner bracket
+      [[1, 2], [3, 4]],   // First round and results
+      [[5, 6]]            // Second round
+    ],
+    [                     // Loser bracket
+      [[7, 8]],           // First round
+      [[9, 10]]           // Second round
+    ],
+    [                     // Final "bracket"
+      [                   // First round
+        [11, 12],         // Match to determine 1st and 2nd
+        [13, 14]          // Match to determine 3rd and 4th
+      ],
+      [                   // Second round
+        [15, 16]          // LB winner won first round (11-12) so need a final decisive round
+      ]
+    ]
+  ]
+}
+</pre>
+
+<div id="minimal">
+  <h3>Minimal</h3>
+  <script type="text/javascript">
+  var minimalData = {
+      teams : [
+        ["Team 1", "Team 2"], /* first matchup */
+        ["Team 3", "Team 4"]  /* second matchup */
+      ],
+      results : [
+        [[1,2], [3,4]],       /* first round */
+        [[4,6], [2,1]]        /* second round */
+      ]
+    }
+
+  $(function() {
+      $('#minimal .demo').bracket({
+        init: minimalData /* data to initialize the bracket with */ })
+    })
+  </script>
+</div>
+
+<div id="save">
+  <h3>Save functionality (click team and score labels to edit)</h3>
+  <p>Note that you can press return when entering scores to procede to next
+  field.</p>
+  <script type="text/javascript">
+  var saveData = {
+      teams : [
+        ["Team 1", "Team 2"], /* first matchup */
+        ["Team 3", "Team 4"]  /* second matchup */
+      ],
+      results : [[1,0], [2,7]]
+    }
+
+  /* Called whenever bracket is modified
+   *
+   * data:     changed bracket object in format given to init
+   * userData: optional data given when bracket is created.
+   */
+  function saveFn(data, userData) {
+    var json = jQuery.toJSON(data)
+    $('#saveOutput').text('POST '+userData+' '+json)
+    /* You probably want to do something like this
+    jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+                                  dataType: 'json',
+                                  type: 'post',
+                                  data: json})
+    */
+  }
+
+  $(function() {
+      var container = $('div#save .demo')
+      container.bracket({
+        init: saveData,
+        save: saveFn,
+        userData: "http://myapi"})
+
+      /* You can also inquiry the current data */
+      var data = container.bracket('data')
+      $('#dataOutput').text(jQuery.toJSON(data))
+    })
+  </script>
+</div>
+<h4>Save output</h4>
+<pre id="saveOutput">Try to first modify some scores or teams</pre>
+<h4>Data inquired at startup</h4>
+<pre id="dataOutput"></pre>
+
+<div id="matches">
+  <h3>Match information</h3>
+  <p>If you wish to make the bracket more interatctive and display match specific information, you can use the match
+    callbacks. You can bind callbacks that are triggered when user clicks or hovers on a match. Custom data
+    regarding which match was triggered will be passed as argument. The data can be input as the third value of
+    each match, first two being the result of the match. The type of the
+    value is not restricted. Hover gets a boolean as second argument indicating if mouse entered or left the match.
+    Callbacks cannot be used in conjunction with the edit feature.</p>
+  <div style="margin-bottom: 5px; font-size: 16px;"><span id="matchCallback">hover and click the matches below</span></div>
+  <script type="text/javascript">
+    var matchData = {
+      teams : [
+        ["Team 1", "Team 2"],
+        ["Team 3", "Team 4"]
+      ],
+      results : [
+        [[4,3,'Match 1'], [3,4,'Match 2']],
+        [[8,6,'Final'], [2,3,'Consolation final']]
+      ]
+    }
+
+    function onclick(data) {
+      $('#matchCallback').text("onclick(data: '" + data + "')")
+    }
+
+    function onhover(data, hover) {
+      $('#matchCallback').text("onhover(data: '" + data + "', hover: " + hover + ")")
+    }
+
+    $(function() {
+      $('#matches .demo').bracket({
+        init: matchData,
+        onMatchClick: onclick,
+        onMatchHover: onhover
+      })
+    })
+  </script>
+</div>
+
+<div id="customHandlers">
+  <h3>Data customization</h3>
+  <script type="text/javascript">
+  /* Custom data objects passed as teams */
+  var customData = {
+      teams : [
+        [{name: "Team 1", flag: 'fi'}, {name: "Team 2", flag: 'kr'}],
+        [{name: "Team 3", flag: 'se'}, {name: "Team 4", flag: 'us'}]
+      ],
+      results : [4,2]
+    }
+
+  /* Edit function is called when team label is clicked */
+  function edit_fn(container, data, doneCb) {
+    var input = $('<input type="text">')
+    input.val(data.name)
+    container.html(input)
+    input.focus()
+    input.blur(function() { doneCb({flag: data.flag, name: input.val()}) })
+  }
+
+  /* Render function is called for each team label when data is changed, data
+   * contains the data object given in init and belonging to this slot. */
+  function render_fn(container, data, score) {
+    if (!data.flag || !data.name)
+      return
+    container.append('<img src="site/png/'+data.flag+'.png" /> ').append(data.name)
+  }
+
+  $(function() {
+    $('div#customHandlers .demo').bracket({
+      init: customData,
+      save: function(){}, /* without save() labels are disabled */
+      decorator: {edit: edit_fn,
+                  render: render_fn}})
+    })
+  </script>
+</div>
+
+<div id="doubleElimination">
+  <h3>Double elimination</h3>
+  <script type="text/javascript">
+  var doubleEliminationData = {
+      teams : [
+        ["Team 1", "Team 2"],
+        ["Team 3", "Team 4"]
+      ],
+      results : [[      /* WINNER BRACKET */
+        [[1,2], [3,4]], /* first and second matches of the first round */
+        [[5,6]]         /* second round */
+      ], [              /* LOSER BRACKET */
+        [[7,8]],        /* first round */
+        [[9,10]]        /* second round */
+      ], [              /* FINALS */
+        [[1,12], [13,14]],
+        [[15,16]]       /* LB winner won first round so need a rematch */
+      ]]
+    }
+
+  $(function() {
+      $('div#doubleElimination .demo').bracket({
+        init: doubleEliminationData})
+    })
+  </script>
+</div>
+
+<div id="noSecondaryFinal">
+  <h3>No secondary final</h3>
+
+  <p>In double elimination, you can disable the secondary final which would
+    generally be used if Loser Bracket winner wins the first match against
+    Winner Bracket winner.</p>
+
+  <script type="text/javascript">
+    $(function() {
+      $('div#noSecondaryFinal .demo').bracket({
+        skipSecondaryFinal: true,
+        init: doubleEliminationData})
+    })
+  </script>
+</div>
+
+<div id="noConsolationRound">
+  <h3>No consolation round</h3>
+
+  <p>Skip the round to determine 3rd and 4th places.</p>
+
+  <script type="text/javascript">
+  $(function() {
+      $('div#noConsolationRound .demo').bracket({
+        skipConsolationRound: true,
+        init: doubleEliminationData})
+    })
+  </script>
+</div>
+
+<div id="reverseBracket">
+  <h3>Reverse flow</h3>
+
+  <p>Render the bracket from right to left.</p>
+
+  <script type="text/javascript">
+  $(function() {
+      $('div#reverseBracket .demo').bracket({
+        dir: 'rl', /* left-to-right or right-to-left flow, value either "rl" or  "lr" (default) */
+        init: doubleEliminationData})
+    })
+  </script>
+</div>
+
+<div id="autoComplete">
+  <h3>Autocomplete demo, try input as "countrycode:name"</h3>
+  <p>This demo uses <a href="http://jqueryui.com/">jQuery UI</a> for the autocomplete.</p>
+  <script type="text/javascript">
+  var autoCompleteData = {
+      teams : [
+        ['fi:Player 1', ''],
+        ['', '']
+      ],
+      results : []
+    }
+
+  /* Data for autocomplete */
+  var acData = ["kr:MC", "ca:HuK", "se:Naniwa", "pe:Fenix",
+                "us:IdrA", "tw:Sen", "fi:Naama"]
+
+  /* If you call doneCb([value], true), the next edit will be automatically 
+     activated. This works only in the first round. */
+  function acEditFn(container, data, doneCb) {
+    var input = $('<input type="text">')
+    input.val(data)
+    input.autocomplete({ source: acData })
+    input.blur(function() { doneCb(input.val()) })
+    input.keyup(function(e) { if ((e.keyCode||e.which)===13) input.blur() })
+    container.html(input)
+    input.focus()
+  }
+
+  function acRenderFn(container, data, score) {
+    var fields = data.split(':')
+    if (fields.length != 2)
+      container.append('--')
+    else
+      container.append('<img src="site/png/'+fields[0]+'.png"> ').append(fields[1])
+  }
+
+  $(function() {
+      $('div#autoComplete .demo').bracket({
+        init: autoCompleteData,
+        save: function(){}, /* without save() labels are disabled */
+        decorator: {edit: acEditFn,
+                    render: acRenderFn}})
+    })
+  </script>
+</div>
+
+<div id="big">
+  <h3>Large double elimination with 16 teams</h3>
+  <script type="text/javascript">
+  var bigData = {
+    teams : [
+      ["Team 1",  "Team 2" ],
+      ["Team 3",  "Team 4" ],
+      ["Team 5",  "Team 6" ],
+      ["Team 7",  "Team 8" ],
+      ["Team 9",  "Team 10"],
+      ["Team 11", "Team 12"],
+      ["Team 13", "Team 14"],
+      ["Team 15", "Team 16"]
+    ],
+    results : [[ /* WINNER BRACKET */
+      [[3,5], [2,4], [6,3], [2,3], [1,5], [5,3], [7,2], [1,2]],
+      [[1,2], [3,4], [5,6], [7,8]],
+      [[9,1], [8,2]],
+      [[1,3]]
+    ], [         /* LOSER BRACKET */
+      [[5,1], [1,2], [3,2], [6,9]],
+      [[8,2], [1,2], [6,2], [1,3]],
+      [[1,2], [3,1]],
+      [[3,0], [1,9]],
+      [[3,2]],
+      [[4,2]]
+    ], [         /* FINALS */
+      [[3,8], [1,2]],
+      [[2,1]]
+    ]]
+  }
+
+  $(function() { $('div#big .demo').bracket({init: bigData}) })
+  </script>
+</div>
+</div>
+<script type="text/javascript">
+$(function() {
+    var big = $('#big div.demo')
+    big.scrollLeft(big.width())
+
+    $('pre.html').addClass('brush: html;')
+    $('pre.js').addClass('brush: js;')
+    SyntaxHighlighter.defaults['gutter'] = false
+    SyntaxHighlighter.defaults['auto-links'] = false
+    SyntaxHighlighter.all('code')
+  })
+</script>
+</body>
+</html>
