@@ -6,24 +6,53 @@
 <body>
 	{% include header.html %}
     {% include scripts.html %}
-    <div id="minimal">
-          <h3>Minimal</h3>
+    <h3>Planeswalker Battle</h3>
+    <div id="singlebracket">
+        
           <script type="text/javascript">
-          var minimalData = {
-              teams : [
-                ["Team 1", "Team 2"], /* first matchup */
-                ["Team 3", "Team 4"]  /* second matchup */
-              ],
-              results : [
-                [[1,2], [3,4]],       /* first round */
-                [[4,6], [2,1]]        /* second round */
-              ]
-            }
+              var saveData = {
+                teams: [
+                  ["Player 1", "Player 8"],
+                  ["Player 4", "Player 5"],
+                  ["Player 3", "Player 6"],
+                  ["Player 2", "Player 7"]
+                ],
+                results: [
+                    [
+                      [[2, 0], [2, 1], [1, 2], [0, 2]],
+                      [[2, 0], [1, 2]],
+                      [[null, null], [null, null]]
+                    ]
+                ]
+              };
 
-          $(function() {
-              $('#minimal .demo').bracket({
-                init: minimalData /* data to initialize the bracket with */ })
-            })
+              /* Called whenever bracket is modified
+               *
+               * data:     changed bracket object in format given to init
+               * userData: optional data given when bracket is created.
+               */
+              function saveFn(data, userData) {
+                var json = jQuery.toJSON(data)
+                $('#saveOutput').text('POST '+userData+' '+json)
+                /* You probably want to do something like this
+                jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+                                              dataType: 'json',
+                                              type: 'post',
+                                              data: json})
+                */
+              }
+
+              $(function() {
+                  var container = $('div#singlebracket')
+                  container.bracket({
+                    init: saveData,
+                    save: saveFn,
+                    userData: "http://myapi"})
+
+                  /* You can also inquiry the current data */
+                  var data = container.bracket('data')
+                  $('#dataOutput').text(jQuery.toJSON(data))
+                })
           </script>
     </div>
     
