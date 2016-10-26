@@ -2104,7 +2104,8 @@ p {
   font-style: italic; }
 
 #singlebracket {
-  height: 400px; }
+  height: 300px;
+  text-align: center; }
 
 .cmdnode {
   display: inline-block;
@@ -2395,9 +2396,7 @@ div.jQBracket.rl .highlightLoser .bubble:after {
   margin-right: 10%; }
   #brackets td:hover {
     background-color: #ccc; }
-  #brackets td a {
-    text-decoration: none; }
-    #brackets td a div {
-      color: #111;
-      height: 100%;
-      width: 100%; }
+  #brackets td div {
+    color: #111;
+    height: 100%;
+    width: 100%; }
