@@ -2240,7 +2240,8 @@ div.jQBracket {
       background-color: #FCC; }
     div.jQBracket .team.np {
       background-color: #666;
-      color: #EEE; }
+      color: #EEE;
+      display: none; }
     div.jQBracket .team.na {
       background-color: #999;
       color: #CCC; }

@@ -1,4 +1,3 @@
-var $, console; //STUPID JSLINT STUFF
 var BRACKET_URL = 'bracket.html',
     MAP_URL = 'map.html',
     STATUS_URL = '',
@@ -19,19 +18,16 @@ $(document).ready(function () {
         buildBracket();
     }
 });
+//gets bracket data and builds bracket
 function buildBracket() {
+    //creates bracket data structure
     var saveData = {
         teams:
             getBracket(),
-        results: [
-            [
-                [[0, 0], [0, 0], [0, 0], [0, 0]],
-                [[0, 0], [0, 0]],
-                [[0, 0], [0, 0]]
-            ]
-        ]
+        results: 
+            getResults()
     };
-
+    //actually builds the bracket with saving enabled
     $(function() {
         var container = $('div#singlebracket');
         container.bracket({
@@ -57,26 +53,49 @@ function buildBracketList() {
 
         //add more tags and status
         tableString += '<td><div onclick=\"location.href=\'' + STATUS_URL + '\'\">' + getStatus(i) + '</div></td>';
-
+        
+        //add more tags and prizing
         tableString += '<td><div onclick=\"location.href=\'' + PRIZED_URL + '\'\">' + getPrized(i) + '</div></td></tr>';
 
         //console.log(tableString);
-
+        //adds string after last element in tbody
         $('#brackets').find('tbody:last').append(tableString);
     }
 }
+//gets the Player IDs and returns appropriate data structure
+// [["Player 1", "Player 8"],   match 1
+//  ["Player 4", "Player 5"],   match 2
+//  ["Player 3", "Player 6"],   match 3
+//  ["Player 2", "Player 7"]];  match 4
+
 function getBracket(){
     return [["Player 1", "Player 8"],
           ["Player 4", "Player 5"],
           ["Player 3", "Player 6"],
           ["Player 2", "Player 7"]];
 }
+//gets results andn returns appropriate data structure
+//[[[[a, b], [c, d], [e, f], [g, h]],   round 1
+//  [[i, j], [k, l]],                   round 2
+//  [[m, n], [o, p]]]]                  finals/loser
+function getResults(){
+    return [
+        [
+            [[0, 0], [0, 0], [0, 0], [0, 0]],
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
+        ]
+    ];
+}
+//gets event name
 function getEvent(num) {
     return 'Event ' + num;
 }
+//gets event location
 function getLocation(num) {
     return 'A' + num;
 }
+//gets event completion status
 function getStatus(num) {
     if (num % 2 === 0) {
         return 'Incomplete';
@@ -84,6 +103,7 @@ function getStatus(num) {
         return 'Complete';
     }
 }
+//gets event prizing status
 function getPrized(num) {
     if (num % 3 === 0) {
         return 'Incomplete';
