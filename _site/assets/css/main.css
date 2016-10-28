@@ -2058,10 +2058,12 @@ a.ui-button:active,
   background: #ccc;
   margin-bottom: 50px;
   vertical-align: middle; }
-  .header div {
+  .header .logo {
     display: inline-block;
-    width: 10%;
-    vertical-align: middle; }
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    background-image: url("/assets/img/logo.jpg"); }
   .header nav {
     display: inline-block;
     vertical-align: middle;
@@ -2080,10 +2082,12 @@ a.ui-button:active,
   background: #ccc;
   margin-top: 50px;
   vertical-align: middle; }
-  .footer div {
+  .footer .logo {
     display: inline-block;
-    width: 10%;
-    vertical-align: middle; }
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    background-image: url("/assets/img/logo.jpg"); }
   .footer nav {
     display: inline-block;
     vertical-align: middle;
