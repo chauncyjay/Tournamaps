@@ -1,0 +1,121 @@
+<event sanctionnumber="16-10-8682396" eventguid="97c2b4e9-2c05-483a-aa62-307fb19a79b4" eventtypecode="FM" orgname="Your Friendly Neighborhood Tabletop Shop Hobbies, Games and Collectibles" coordinator="8081059127" headjudge="83123899" startdate="2016-10-28" postevententry="false" enddate="0001-01-01T00:00:00" format="BOOSTER" eliminationType="3" iscasualreportonly="False" title="Friday Night Magic Ranked: October 2016" isstarted="True" status="8" batchid="" isplayoff="False" manualmatchround="0" notes="16-10-8682396" numberofrounds="3" playoffstartround="0">
+  <participation>
+    <person id="2102297334" first="Cameron" last="Molloy" middle="" country="US" />
+    <person id="9113736975" first="Anthony" last="Deliz" middle="V" country="US" />
+    <person id="4209578740" first="Thomas" last="Hopko" middle="" country="US" />
+    <person id="6203845069" first="Robert" last="Lipski" middle="" country="US" />
+    <person id="8103425357" first="Kihan" last="Ericson" middle="" country="US" />
+    <person id="7111543189" first="Matt" last="Duggan" middle=" " country="US" />
+    <person id="9210531878" first="Christopher" last="Ocampo" middle="" country="US" />
+    <person id="2107599171" first="Chris" last="Boyd" middle="" country="US" />
+    <person id="9113736913" first="Kegan" last="Marrero" middle="" country="US" />
+    <person id="1208328712" first="Michael" last="Evans" middle="" country="US" />
+    <person id="83123899" first="Jacob" last="Bard" middle="L" country="US" />
+    <team id="323" name="Ocampo, Christopher" status="2" eliminationround="0">
+      <member position="A" person="9210531878" />
+    </team>
+    <team id="348" name="Hopko, Thomas" status="3" eliminationround="2">
+      <member position="A" person="4209578740" />
+    </team>
+    <team id="349" name="Molloy, Cameron" status="3" eliminationround="2">
+      <member position="A" person="2102297334" />
+    </team>
+    <team id="350" name="Marrero, Kegan" status="2" eliminationround="0">
+      <member position="A" person="9113736913" />
+    </team>
+    <team id="351" name="Lipski, Robert" status="2" eliminationround="0">
+      <member position="A" person="6203845069" />
+    </team>
+    <team id="352" name="Duggan, Matt" status="2" eliminationround="0">
+      <member position="A" person="7111543189" />
+    </team>
+    <team id="353" name="Boyd, Chris" status="2" eliminationround="0">
+      <member position="A" person="2107599171" />
+    </team>
+    <team id="354" name="Deliz, Anthony" status="2" eliminationround="0">
+      <member position="A" person="9113736975" />
+    </team>
+    <team id="355" name="Ericson, Kihan" status="3" eliminationround="2">
+      <member position="A" person="8103425357" />
+    </team>
+    <team id="356" name="Evans, Michael" status="2" eliminationround="0">
+      <member position="A" person="1208328712" />
+    </team>
+    <role cd="PL" type="PA">
+      <ref person="6203845069" seq="1" />
+      <ref person="1208328712" seq="2" />
+      <ref person="7111543189" seq="3" />
+      <ref person="9113736975" seq="4" />
+      <ref person="9113736913" seq="5" />
+      <ref person="2107599171" seq="6" />
+      <ref person="9210531878" seq="7" />
+      <ref person="4209578740" seq="8" />
+      <ref person="2102297334" seq="9" />
+      <ref person="8103425357" seq="10" />
+    </role>
+    <role cd="PL" type="DQ" />
+    <role cd="JG" type="PA" />
+  </participation>
+  <matches>
+    <round number="1" PlayFormat="BOOSTER" date="2016-10-28T22:29:41" teamformat="false">
+      <match person="9113736975" opponent="2102297334" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="6203845069" opponent="4209578740" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="7111543189" opponent="8103425357" outcome="1" win="2" loss="0" draw="0" winbydrop="False" />
+      <match person="9210531878" opponent="2107599171" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="1208328712" opponent="9113736913" outcome="1" win="2" loss="0" draw="0" winbydrop="False" />
+    </round>
+    <round number="2" PlayFormat="BOOSTER" date="2016-10-28T23:44:56" teamformat="false">
+      <match person="7111543189" opponent="9210531878" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="6203845069" opponent="9113736975" outcome="1" win="2" loss="0" draw="0" winbydrop="False" />
+      <match person="1208328712" opponent="4209578740" outcome="1" win="2" loss="0" draw="0" winbydrop="False" />
+      <match person="9113736913" opponent="2102297334" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="2107599171" opponent="8103425357" outcome="1" win="2" loss="0" draw="0" winbydrop="False" />
+    </round>
+    <round number="3" PlayFormat="BOOSTER" date="2016-10-29T00:32:54" teamformat="false">
+      <match person="9113736913" outcome="3" win="2" loss="0" draw="0" winbydrop="False" />
+      <match person="6203845069" opponent="7111543189" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="2107599171" opponent="1208328712" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+      <match person="9113736975" opponent="9210531878" outcome="1" win="2" loss="1" draw="0" winbydrop="False" />
+    </round>
+  </matches>
+  <seats>
+    <table number="1">
+      <seat number="1" player="6203845069" />
+      <seat number="2" player="7111543189" />
+    </table>
+    <table number="2">
+      <seat number="1" player="2102297334" />
+      <seat number="2" player="2107599171" />
+    </table>
+    <table number="3">
+      <seat number="1" player="9113736975" />
+      <seat number="2" player="9113736913" />
+    </table>
+    <table number="4">
+      <seat number="1" player="4209578740" />
+      <seat number="2" player="9210531878" />
+    </table>
+    <table number="5">
+      <seat number="1" player="8103425357" />
+      <seat number="2" player="1208328712" />
+    </table>
+  </seats>
+  <pods>
+    <podround>
+      <round number="1" />
+      <round number="2" />
+      <round number="3" />
+    </podround>
+  </pods>
+  <log>
+    <entry date="2016-10-02T14:25:33" operation="CRE">4.3.4.577</entry>
+    <entry date="2016-10-28T22:29:41" operation="ROUND">Round Started 1</entry>
+    <entry date="2016-10-28T22:42:55" operation="MATCH">Matches created using match algorithm for round 1.</entry>
+    <entry date="2016-10-28T23:44:56" operation="ROUND">Round Started 2</entry>
+    <entry date="2016-10-28T23:44:57" operation="MATCH">Matches created using match algorithm for round 2.</entry>
+    <entry date="2016-10-29T00:32:54" operation="ROUND">Round Started 3</entry>
+    <entry date="2016-10-29T00:32:55" operation="MATCH">Matches created using match algorithm for round 3.</entry>
+    <entry date="2016-10-29T01:35:17" operation="COM">Tournament Completed</entry>
+    <entry date="2016-10-29T01:35:18" operation="UPL">Results being uploaded.</entry>
+  </log>
+</event>

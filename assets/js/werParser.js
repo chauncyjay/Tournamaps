@@ -7,13 +7,14 @@ Goals:  Import .wer file
         
         
 */
-function Event(xml, ename, etype, playerlist, tm, rounds){
+function Event(xml, ename, etype, playerlist, tm, rounds, fin){
     this.src = xml;
     this.eventName = ename;
     this.eventType = etype;
     this.players = playerlist;
     this.teams = tm;
     this.matches = rounds;
+    this.finished = fin;
 }
 function Player(dciNo, fname, lname){
     this.dci = dciNo;
@@ -26,7 +27,8 @@ function Team(num, tname, p1, p2){
     this.primaryHead = p1;
     this.secondaryHead = p2;
 }
-function Match(p1, p1p, p2, p2p){
+function Match(rd, p1, p1p, p2, p2p){
+    this.round = rd;
     this.playerOne = p1;
     this.playerOnePoints = p1p;
     this.playerTwo = p2;
@@ -54,7 +56,7 @@ function createEventWithWERfile(xmlsrc){
     var type = werDoc.getElementsByTagName('event')[0].getAttribute('format');
     var team = werDoc.getElementsByTagName('round')[0].getAttribute('teamformat');
     var play = parsePlayers(werDoc)
-    return new Event(werDoc, name, type, play, team, parseMatches(play, werDoc));
+    return new Event(werDoc, name, type, play, team, parseMatches(play, werDoc), false);
 }
 //gets player info from extracted wer doc
 function parsePlayers(wer){
@@ -75,13 +77,30 @@ function parseMatches(players, wer){
     var matches = wer.getElementsByTagName('match');
     for (var i = 0; i < matches.length; i++){
         var pl1 = getPlayerByDCI(players, matches[i].getAttribute('person'));
+        var pl1p = getPoints(pl1, matches[i]);
         var pl2 = getPlayerByDCI(players, matches[i].getAttribute('opponent'));
-        matchInfo.push(new Match(pl1, 0, pl2, 0));
+        var pl2p = getPoints(pl2, matches[i]);
+        var rnd = parseInt(matches[i].parentNode.getAttribute('number'));
+        matchInfo.push(new Match(rnd, pl1, pl1p, pl2, pl2p));
     }
     //console.log(matchInfo);
     return matchInfo;
 }
-//accepts array of players and dci number, returns player with dci
+function getPoints(player, match){
+    if (match.getAttribute('outcome') === "2"){
+        return 0;
+    }
+    else if(player.dci === match.getAttribute('person') && match.getAttribute('outcome') === "1"){
+        return parseInt(match.getAttribute('win'));
+    }
+    else if(player.dci === match.getAttribute('opponent') && match.getAttribute('outcome') === "1"){
+        return parseInt(match.getAttribute('loss'));
+    }
+    else{
+        return -1;
+    }
+}
+//accepts array of players and dci number, returns player object
 function getPlayerByDCI(array, dciNo) {
     for(var i = 0; i < array.length; i++) {
         if(array[i].dci === dciNo)
