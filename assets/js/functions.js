@@ -3,7 +3,7 @@ var BRACKET_URL = 'bracket.html',
     STATUS_URL = '',
     PRIZED_URL = '',
     BRACKET_LIST_HTML = 'bracketlist.html',
-    i;
+    WER_URL = "/assets/example.wer";
 
 $(document).ready(function () {
     
@@ -11,21 +11,23 @@ $(document).ready(function () {
     //Documentation: http://www.kryogenix.org/code/browser/sorttable/
     //sorttable.makeSortable(newTableObject);
     
-    if ($(location).attr('pathname') === '/' + BRACKET_LIST_HTML) {  //only runs on bracket list 
+    if ($(location).attr('pathname') === '/' + BRACKET_LIST_HTML) {  //only runs on bracket list page
         buildBracketList();
     }
-    if ($(location).attr('pathname') === '/' + BRACKET_URL) {  //only runs on bracket list 
-        buildBracket();
+    if ($(location).attr('pathname') === '/' + BRACKET_URL) {  //only runs on bracket page
+        var event = createEventWithWERfile(WER_URL);
+        //console.log(eventString(singleBracket));
+        displayBracket(event);
     }
 });
 //gets bracket data and builds bracket
-function buildBracket() {
+function displayBracket(e) {
     //creates bracket data structure
     var saveData = {
         teams:
-            getBracket(),
+            getBracket(e),
         results: 
-            getResults()
+            getResults(e)
     };
     //actually builds the bracket with saving enabled
     $(function() {
@@ -41,6 +43,7 @@ function buildBracket() {
         $('#dataOutput').text(jQuery.toJSON(data));
     })
 }
+//builds list of brackets on existing table
 function buildBracketList() {
     //builds each row by getting information for the table
     for (i = 1; i < 4; i += 1) {
@@ -68,17 +71,19 @@ function buildBracketList() {
 //  ["Player 3", "Player 6"],   match 3
 //  ["Player 2", "Player 7"]];  match 4
 
-function getBracket(){
-    return [["Player 1", "Player 8"],
-          ["Player 4", "Player 5"],
-          ["Player 3", "Player 6"],
-          ["Player 2", "Player 7"]];
+function getBracket(event){
+    var playersFormatted = [];
+    for (var i = 0; i < 4; i++){
+        playersFormatted.push([getPlayerFullName(event.matches[i].playerOne), getPlayerFullName(event.matches[i].playerTwo)]);
+    }
+    //console.log(playersFormatted);
+    return playersFormatted;
 }
 //gets results andn returns appropriate data structure
 //[[[[a, b], [c, d], [e, f], [g, h]],   round 1
 //  [[i, j], [k, l]],                   round 2
 //  [[m, n], [o, p]]]]                  finals/loser
-function getResults(){
+function getResults(bracket){
     return [
         [
             [[0, 0], [0, 0], [0, 0], [0, 0]],

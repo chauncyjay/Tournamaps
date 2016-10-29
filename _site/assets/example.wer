@@ -1,0 +1,83 @@
+<event sanctionnumber="" eventguid="ecc288ee-cdf4-4bc4-972b-5c6faaa94d40" orgguid="7139c267-10a8-4ecb-aed1-6f75cf48730e" parenteventguid="32419c7b-8b58-4457-82cb-a1a067a4e928" parentevent="" eventtypecode="PEGP" orgname="Worlds Apart Games" headjudge="9102402960" startdate="2016-08-16" postevententry="true" enddate="0001-01-01T00:00:00" format="BOOSTER" eliminationType="4" iscasualreportonly="False" title="test master Booster Draft 1" isstarted="True" status="1" batchid="" isplayoff="False" manualmatchround="1" notes="Public+Event+at+Grand+Prix" numberofrounds="3" playoffstartround="0">
+  <parentevent eventguid="32419c7b-8b58-4457-82cb-a1a067a4e928" title="test master" startdate="2016-08-16T00:00:00" formatcode="STANDARD" eliminationtypeid="1" postevententry="False" eventinformation="" eventtypecode="UNK" email="" notes="" phone="413-259-6893" url="" orgname="Worlds Apart Games" orgguid="7139c267-10a8-4ecb-aed1-6f75cf48730e" playlocation="" seasoncode="" masterrulecode="" iscasualreportonly="False" status="Active" parenteventguid="" allowsideevents="True" />
+  <sideevent parenteventguid="32419c7b-8b58-4457-82cb-a1a067a4e928" />
+  <participation>
+    <person id="2203784843" first="Chris" last="Danisch" middle="J" country="US" />
+    <person id="59611856" first="Ronald" last="Wirth" middle="" country="US" />
+    <person id="29540614" first="Zachary" last="Adams" middle="" country="US" />
+    <person id="4103801423" first="Maxwell" last="Jergerian" middle="" country="US" />
+    <person id="1202475098" first="Donivan" last="Abraham" middle="" country="US" />
+    <person id="7103838641" first="Doug" last="Abbott" middle="" country="US" />
+    <person id="79057904" first="Ben" last="Petrila" middle="" country="US" />
+    <person id="2110839640" first="Cameron" last="Kerbaugh" middle="D" country="US" />
+    <person id="9102402960" first="Joe" last="Hughto" middle="" country="US" />
+    <team id="9" name="Danisch, Chris" status="2" eliminationround="0">
+      <member position="A" person="2203784843" />
+    </team>
+    <team id="10" name="Jergerian, Maxwell" status="2" eliminationround="0">
+      <member position="A" person="4103801423" />
+    </team>
+    <team id="11" name="Abbott, Doug" status="2" eliminationround="0">
+      <member position="A" person="7103838641" />
+    </team>
+    <team id="12" name="Adams, Zachary" status="2" eliminationround="0">
+      <member position="A" person="29540614" />
+    </team>
+    <team id="13" name="Abraham, Donivan" status="2" eliminationround="0">
+      <member position="A" person="1202475098" />
+    </team>
+    <team id="14" name="Wirth, Ronald" status="2" eliminationround="0">
+      <member position="A" person="59611856" />
+    </team>
+    <team id="15" name="Petrila, Ben" status="2" eliminationround="0">
+      <member position="A" person="79057904" />
+    </team>
+    <team id="16" name="Kerbaugh, Cameron" status="2" eliminationround="0">
+      <member position="A" person="2110839640" />
+    </team>
+    <role cd="PL" type="PA">
+      <ref person="1202475098" seq="1" />
+      <ref person="59611856" seq="2" />
+      <ref person="79057904" seq="3" />
+      <ref person="2110839640" seq="4" />
+      <ref person="29540614" seq="5" />
+      <ref person="4103801423" seq="6" />
+      <ref person="7103838641" seq="7" />
+      <ref person="2203784843" seq="8" />
+    </role>
+    <role cd="PL" type="DQ" />
+    <role cd="JG" type="PA" />
+  </participation>
+  <matches>
+    <round number="1" PlayFormat="BOOSTER" date="2016-08-16T12:47:35" teamformat="false">
+      <match person="2203784843" opponent="59611856" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+      <match person="29540614" opponent="4103801423" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+      <match person="1202475098" opponent="7103838641" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+      <match person="79057904" opponent="2110839640" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+    </round>
+    <round number="2" PlayFormat="BOOSTER" date="2016-08-16T12:47:35" teamformat="false">
+      <match person="1202475098" opponent="29540614" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+      <match person="2203784843" opponent="79057904" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+    </round>
+    <round number="3" PlayFormat="BOOSTER" date="2016-08-16T12:47:35" teamformat="false">
+      <match person="1202475098" opponent="2203784843" outcome="2" win="-1" loss="-1" draw="-1" winbydrop="False" />
+    </round>
+  </matches>
+  <seats />
+  <pods>
+    <podround>
+      <round number="1" />
+      <round number="2" />
+      <round number="3" />
+    </podround>
+  </pods>
+  <log>
+    <entry date="2016-08-16T12:46:25" operation="CRE">4.3.4.577</entry>
+    <entry date="2016-08-16T12:47:35" operation="ROUND">Round Started 1</entry>
+    <entry date="2016-08-16T12:47:35" operation="MATCH">Match Created Manually</entry>
+    <entry date="2016-08-16T12:47:35" operation="ROUND">Round Started 2</entry>
+    <entry date="2016-08-16T12:47:35" operation="MATCH">Match Created Manually</entry>
+    <entry date="2016-08-16T12:47:35" operation="ROUND">Round Started 3</entry>
+    <entry date="2016-08-16T12:47:35" operation="MATCH">Match Created Manually</entry>
+  </log>
+</event>
