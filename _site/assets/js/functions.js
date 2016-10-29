@@ -51,9 +51,15 @@ function displayBracket(e) {
     $(function() {
         var container = $('div#singlebracket');
         container.bracket({
+            teamWidth: 200,
+            scoreWidth: 20,
+            matchMargin: 30,
+            roundMargin: 100,
+            disableToolbar: true,
+            disableTeamEdit: true,
             init: saveData,
             save: saveFn,
-            userData: "http://myapi"
+            userData: "/assets/json/bracketSave.json"
         });
 
         /* You can also inquiry the current data */

@@ -2163,10 +2163,9 @@ p {
  */
 div.jQBracket {
   font-family: "Arial";
-  font-size: 16px;
+  font-size: 14px;
   position: relative; }
   div.jQBracket .tools {
-    display: none;
     position: absolute;
     top: 0px;
     color: #FFF; }
@@ -2194,8 +2193,6 @@ div.jQBracket {
     position: relative; }
   div.jQBracket .round {
     position: relative;
-    width: 200px;
-    margin-right: 40px;
     float: left; }
   div.jQBracket .match {
     position: relative; }
@@ -2206,23 +2203,22 @@ div.jQBracket {
     z-index: 1;
     float: left;
     background-color: #EEE;
-    width: 200px;
     cursor: default; }
     div.jQBracket .team:first-child {
       border-bottom: 1px solid #999; }
     div.jQBracket .team input {
       font-size: 12px;
       padding: 0;
-      width: inherit;
+      width: 100%;
       border: none;
       margin: 0; }
     div.jQBracket .team div.label {
       padding: 3px;
       position: absolute;
-      width: 170px;
       height: 22px;
       white-space: nowrap;
-      overflow: hidden; }
+      overflow: hidden;
+      box-sizing: border-box; }
       div.jQBracket .team div.label[disabled] {
         cursor: default; }
     div.jQBracket .team div.score {
@@ -2230,7 +2226,7 @@ div.jQBracket {
       padding: 3px;
       background-color: rgba(255, 255, 255, 0.3);
       text-align: center;
-      width: 20px; }
+      box-sizing: border-box; }
       div.jQBracket .team div.score[disabled] {
         color: #999;
         cursor: default; }
@@ -2239,8 +2235,7 @@ div.jQBracket {
       background-color: #FCC; }
     div.jQBracket .team.np {
       background-color: #666;
-      color: #EEE;
-      display: none; }
+      color: #EEE; }
     div.jQBracket .team.na {
       background-color: #999;
       color: #CCC; }
@@ -2347,7 +2342,6 @@ div.jQBracket.rl .loserBracket {
   clear: right; }
 div.jQBracket.rl .round {
   margin-right: 0;
-  margin-left: 40px;
   float: right; }
 div.jQBracket.rl .team {
   float: right; }
