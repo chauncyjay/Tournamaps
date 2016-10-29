@@ -27,7 +27,11 @@ $(document).ready(function () {
 
 //builds the command nodes for command page
 function buildCommandNodes(){
-    
+    for(var i=0; i < 4; i++){
+        $.get('assets/html/cmdnode.html', function(data) {
+            $(data).filter('.cmdnode').appendTo('.nodeContainer');
+        });
+    }
 }
 
 //gets bracket data and builds bracket
