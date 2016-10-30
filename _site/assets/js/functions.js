@@ -51,7 +51,7 @@ function displayBracket(e) {
     $(function() {
         var container = $('div#singlebracket');
         container.bracket({
-            teamWidth: 200,
+            teamWidth: 150,
             scoreWidth: 20,
             matchMargin: 30,
             roundMargin: 100,

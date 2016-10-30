@@ -2067,13 +2067,14 @@ a.ui-button:active,
   .header nav {
     display: inline-block;
     vertical-align: middle;
-    width: 85%; }
+    width: 85%;
+    text-align: center; }
     .header nav a {
       text-decoration: none;
       display: inline-block;
       margin-left: 5%;
       color: rgba(0, 0, 0, 0.7);
-      font-size: 2em; }
+      font-size: 3vw; }
       .header nav a:hover {
         color: black; }
 
@@ -2091,13 +2092,14 @@ a.ui-button:active,
   .footer nav {
     display: inline-block;
     vertical-align: middle;
-    width: 85%; }
+    width: 85%;
+    text-align: center; }
     .footer nav a {
       text-decoration: none;
       display: inline-block;
       margin-left: 5%;
       color: rgba(0, 0, 0, 0.7);
-      font-size: 2em; }
+      font-size: 3vw; }
       .footer nav a:hover {
         color: black; }
 
@@ -2107,14 +2109,21 @@ p {
 .italic {
   font-style: italic; }
 
+h3 {
+  text-align: center; }
+
 #singlebracket {
   height: 300px;
   text-align: center; }
 
+.nodeContainer {
+  text-align: center; }
+
 .cmdnode {
   display: inline-block;
-  width: 300px;
-  margin-left: 5%;
+  width: 270px;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
   border: 1px solid black;
   vertical-align: top;
   margin-bottom: 20px; }
@@ -2131,18 +2140,17 @@ p {
 .cmdshead {
   width: 100%;
   border-bottom: 1px dashed black;
-  text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: 600; }
 
 .cmdevent {
   display: inline-block;
-  margin-left: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
   margin-top: 10px;
   margin-bottom: 5px;
-  width: 30%;
-  text-align: center; }
+  width: 40%; }
 
 .active button {
   color: red; }
@@ -2392,6 +2400,14 @@ div.jQBracket.rl .highlightLoser .bubble:after {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%; }
+  #brackets th:nth-child(1) {
+    width: 30%; }
+  #brackets th:nth-child(2) {
+    width: 10%; }
+  #brackets th:nth-child(3) {
+    width: 30%; }
+  #brackets th:nth-child(4) {
+    width: 30%; }
   #brackets td:hover {
     background-color: #ccc; }
   #brackets td div {
