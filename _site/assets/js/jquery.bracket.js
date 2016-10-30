@@ -7,6 +7,7 @@
  * Licenced under the MIT licence
  */
 
+
 /// <reference path="../lib/jquery.d.ts" />
 
 (function($) {
