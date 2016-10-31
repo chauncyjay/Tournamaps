@@ -4,20 +4,16 @@ var BRACKET_URL = '/bracket.html',
     PRIZED_URL = '',
     BRACKET_LIST_URL = '/bracketlist.html',
     COMMAND_URL = '/command.html',
-    WER_URL = "/assets/werFiles/example.wer";
+    WER_URL = "/assets/werFiles/example.wer",
+    BRACKET_SAVE_FILE = "/assets/json/bracketSave.json";
 
 $(document).ready(function () {
-    
-    //Use this to make tables added dynamically sortable
-    //Documentation: http://www.kryogenix.org/code/browser/sorttable/
-    //sorttable.makeSortable(newTableObject);
     
     if ($(location).attr('pathname') === BRACKET_LIST_URL) {  //only runs on bracket list page
         buildBracketList();
     }
     if ($(location).attr('pathname') === BRACKET_URL) {  //only runs on bracket page
         var event = createEventWithWERfile(WER_URL);
-        //console.log(eventString(singleBracket));
         displayBracket(event);
     }
     if ($(location).attr('pathname') === COMMAND_URL){
@@ -59,7 +55,7 @@ function displayBracket(e) {
             disableTeamEdit: true,
             init: saveData,
             save: saveFn,
-            userData: "/assets/json/bracketSave.json"
+            userData: BRACKET_SAVE_FILE
         });
 
         /* You can also inquiry the current data */
@@ -80,16 +76,10 @@ function buildBracketList() {
         data: getBracketListData(),
         
         rowClick: function(args){
-            if(validateLocation(args.item.Location)) {
-                $(location).attr('href', 'map.html');
-            }
-            else {
-                $(location).attr('href', 'bracket.html');
-            }
         },
         fields: [
             { name: "Event Name", type: "text" },
-            { name: "Location", type: "text", width: 50 },
+            { name: "Location", type: "text", width: 50, css: "mapLoc", headercss: "locHead"},
             { name: "Complete", type: "text" },
             { name: "Prized", type: "text" }
         ]
@@ -116,8 +106,7 @@ function buildBracketList() {
     }*/
 }
 function validateLocation(loc){
-    console.log(loc.length < 4);
-    //return loc.length < 4;
+    
 }
 function getBracketListData(){
     var bracket = [];
