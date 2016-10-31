@@ -3,7 +3,7 @@ var BRACKET_URL = '/bracket.html',
     STATUS_URL = '',
     PRIZED_URL = '',
     BRACKET_LIST_URL = '/bracketlist.html',
-    COMMAND_URL = '/command.html'
+    COMMAND_URL = '/command.html',
     WER_URL = "/assets/werFiles/example.wer";
 
 $(document).ready(function () {
@@ -53,8 +53,8 @@ function displayBracket(e) {
         container.bracket({
             teamWidth: 150,
             scoreWidth: 20,
-            matchMargin: 30,
-            roundMargin: 100,
+            matchMargin: 50,
+            roundMargin: 200,
             disableToolbar: true,
             disableTeamEdit: true,
             init: saveData,
@@ -70,8 +70,33 @@ function displayBracket(e) {
 
 //builds list of brackets on existing table
 function buildBracketList() {
+    var bracket
+    $("#jsGrid").jsGrid({
+        width: "80%",
+        height: "430px",
+ 
+        sorting: true,
+ 
+        data: getBracketListData(),
+        
+        rowClick: function(args){
+            if(validateLocation(args.item.Location)) {
+                $(location).attr('href', 'map.html');
+            }
+            else {
+                $(location).attr('href', 'bracket.html');
+            }
+        },
+        fields: [
+            { name: "Event Name", type: "text" },
+            { name: "Location", type: "text", width: 50 },
+            { name: "Complete", type: "text" },
+            { name: "Prized", type: "text" }
+        ]
+    });
+    
     //builds each row by getting information for the table
-    for (i = 1; i < 4; i += 1) {
+    /*for (i = 1; i < 4; i += 1) {
 
         //create string and add tags and name
         var tableString = '<tr><td><div onclick="location.href=\'' + BRACKET_URL + '\'\">' + getEvent(i) + '</div></td>';
@@ -88,7 +113,21 @@ function buildBracketList() {
         //console.log(tableString);
         //adds string after last element in tbody
         $('#brackets').find('tbody:last').append(tableString);
+    }*/
+}
+function validateLocation(loc){
+    console.log(loc.length < 4);
+    //return loc.length < 4;
+}
+function getBracketListData(){
+    var bracket = [];
+    for(var i = 1; i < 40; i++){
+        bracket.push({"Event Name": getEvent(i),
+                      "Location": getLocation(i),
+                      "Complete": getStatus(i),
+                      "Prized": getPrized(i)});
     }
+    return bracket;
 }
 
 //gets the Player IDs and returns appropriate data structure
