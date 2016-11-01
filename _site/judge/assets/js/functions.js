@@ -77,55 +77,11 @@ function displayBracket(saveData) {
             save: saveFn,
             userData: BRACKET_SAVE_FILE
         });
-        //wtf is this callback hopefully it works
-        for(var i = 1; i <= 8; i++){
-            $('<button/>')
-                .addClass('round1')
-                .addClass(function(){
-                    return 'match' + Math.round(i/2);
-                })
-                .addClass(function(){
-                    if (i % 2 === 0){
-                        $('<button/>')
-                            .addClass('round2')
-                            .addClass(function(){
-                                return 'match' + Math.round(i/4);
-                            })
-                            .addClass(function(){
-                                if (i % 4 === 0){
-                                    $('<button/>')
-                                        .addClass('finals')
-                                        .addClass(function(){
-                                            if (i % 8 === 0){
-                                                $(this).text('P2 Win');
-                                                return 'p2';
-                                            }
-                                            else{
-                                                $(this).text('P1 Win');
-                                                return 'p1';
-                                            }
-                                        })
-                                        .appendTo('div#singlebracket');
-                                    $(this).text('P2 Win');
-                                    return 'p2';
-                                }
-                                else{
-                                    $(this).text('P1 Win');
-                                    return 'p1';
-                                }
-                            })
-                            .appendTo('div#singlebracket');
-                        $(this).text('P2 Win');
-                        return 'p2';
-                        }
-                    else{
-                        $(this).text('P1 Win');
-                        return 'p1'
-                    }
-                })
-                .appendTo('div#singlebracket');
-        }
         
+        /* You can also inquiry the current data */
+        var data = container.bracket('data');
+        console.log(data);
+        console.log(jQuery.toJSON(data));
     })
 }
 //builds list of brackets on existing table

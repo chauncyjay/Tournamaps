@@ -5,7 +5,7 @@ var BRACKET_URL = '/bracket.html',
     BRACKET_LIST_URL = '/bracketlist.html',
     COMMAND_URL = '/command.html',
     WER_URL = "/assets/werFiles/example.wer",
-    BRACKET_SAVE_FILE = "/assets/json/bracketSave.json";
+    BRACKET_SAVE_FILE = "/assets/php/jsonSave.php";
 
 $(document).ready(function () {
     
@@ -14,7 +14,18 @@ $(document).ready(function () {
     }
     if ($(location).attr('pathname') === BRACKET_URL) {  //only runs on bracket page
         var event = createEventWithWERfile(WER_URL);
-        displayBracket(event);
+        //sets heading to name of bracket
+        $('#bracketheader').text(event.eventName +" Bracket");
+
+        //creates bracket data structure
+        var bracketData = {
+            teams:
+                getBracket(event),
+            results: 
+                getResults(event)
+        };
+        
+        displayBracket(bracketData);
     }
     if ($(location).attr('pathname') === COMMAND_URL){
         buildCommandNodes();
@@ -29,20 +40,27 @@ function buildCommandNodes(){
         });
     }
 }
-
+/* Called whenever bracket is modified
+*
+* data:     changed bracket object in format given to init
+* userData: optional data given when bracket is created.
+*/
+function saveFn(data, userData) {
+    var json = jQuery.toJSON(data);
+    
+    $.ajax({
+        type: "POST",
+        dataType : 'json',
+        async: false,
+        url: userData,
+        data: {data: data},
+        success: function () {alert("Thanks!"); },
+        failure: function() {alert("Error!");}
+    });
+    
+}
 //gets bracket data and builds bracket
-function displayBracket(e) {
-    //sets heading to name of bracket
-    $('#bracketheader').text(e.eventName +" Bracket");
-    
-    //creates bracket data structure
-    var saveData = {
-        teams:
-            getBracket(e),
-        results: 
-            getResults(e)
-    };
-    
+function displayBracket(saveData) {
     //actually builds the bracket with saving enabled
     $(function() {
         var container = $('div#singlebracket');
@@ -51,19 +69,65 @@ function displayBracket(e) {
             scoreWidth: 20,
             matchMargin: 50,
             roundMargin: 200,
+            
             disableToolbar: true,
             disableTeamEdit: true,
+            
             init: saveData,
             save: saveFn,
             userData: BRACKET_SAVE_FILE
         });
-
-        /* You can also inquiry the current data */
-        var data = container.bracket('data');
-        $('#dataOutput').text(jQuery.toJSON(data));
+        //wtf is this callback hopefully it works
+        for(var i = 1; i <= 8; i++){
+            $('<button/>')
+                .addClass('round1')
+                .addClass(function(){
+                    return 'match' + Math.round(i/2);
+                })
+                .addClass(function(){
+                    if (i % 2 === 0){
+                        $('<button/>')
+                            .addClass('round2')
+                            .addClass(function(){
+                                return 'match' + Math.round(i/4);
+                            })
+                            .addClass(function(){
+                                if (i % 4 === 0){
+                                    $('<button/>')
+                                        .addClass('finals')
+                                        .addClass(function(){
+                                            if (i % 8 === 0){
+                                                $(this).text('P2 Win');
+                                                return 'p2';
+                                            }
+                                            else{
+                                                $(this).text('P1 Win');
+                                                return 'p1';
+                                            }
+                                        })
+                                        .appendTo('div#singlebracket');
+                                    $(this).text('P2 Win');
+                                    return 'p2';
+                                }
+                                else{
+                                    $(this).text('P1 Win');
+                                    return 'p1';
+                                }
+                            })
+                            .appendTo('div#singlebracket');
+                        $(this).text('P2 Win');
+                        return 'p2';
+                        }
+                    else{
+                        $(this).text('P1 Win');
+                        return 'p1'
+                    }
+                })
+                .appendTo('div#singlebracket');
+        }
+        
     })
 }
-
 //builds list of brackets on existing table
 function buildBracketList() {
     var bracket
@@ -178,19 +242,4 @@ function getPrized(num) {
     } else {
         return 'Complete';
     }
-}
-/* Called whenever bracket is modified
-*
-* data:     changed bracket object in format given to init
-* userData: optional data given when bracket is created.
-*/
-function saveFn(data, userData) {
-    var json = jQuery.toJSON(data)
-    $('#saveOutput').text('POST '+userData+' '+json)
-    /* You probably want to do something like this
-    jQuery.ajax("rest/"+userData, {contentType: 'application/json',
-                                  dataType: 'json',
-                                  type: 'post',
-                                  data: json})
-    */
 }
