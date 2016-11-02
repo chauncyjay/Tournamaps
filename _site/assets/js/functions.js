@@ -30,6 +30,7 @@ $(document).ready(function () {
     if ($(location).attr('pathname') === COMMAND_URL){
         buildCommandNodes();
     }
+    
 });
 
 //builds the command nodes for command page
@@ -47,6 +48,7 @@ function buildCommandNodes(){
 */
 function saveFn(data, userData) {
     var json = jQuery.toJSON(data);
+    console.log(json);
     
     $.ajax({
         type: "POST",
@@ -68,7 +70,7 @@ function displayBracket(saveData) {
             teamWidth: 150,
             scoreWidth: 20,
             matchMargin: 50,
-            roundMargin: 200,
+            roundMargin: 150,
             
             disableToolbar: true,
             disableTeamEdit: true,
@@ -79,53 +81,58 @@ function displayBracket(saveData) {
         });
         //wtf is this callback hopefully it works
         for(var i = 1; i <= 8; i++){
+            var j = Math.round(i/2);
+            var k = Math.round(i/4);
+            var l = (i % 2) + 1;
             $('<button/>')
-                .addClass('round1')
+                .addClass('r1')
                 .addClass(function(){
-                    return 'match' + Math.round(i/2);
+                    return 'm' + j;
                 })
                 .addClass(function(){
                     if (i % 2 === 0){
                         $('<button/>')
-                            .addClass('round2')
+                            .addClass('r2')
                             .addClass(function(){
-                                return 'match' + Math.round(i/4);
+                                return 'm' + k;
                             })
                             .addClass(function(){
                                 if (i % 4 === 0){
                                     $('<button/>')
-                                        .addClass('finals')
+                                        .addClass('fin')
                                         .addClass(function(){
                                             if (i % 8 === 0){
-                                                $(this).text('P2 Win');
-                                                return 'p2';
-                                            }
-                                            else{
                                                 $(this).text('P1 Win');
                                                 return 'p1';
                                             }
+                                            else{
+                                                $(this).text('P2 Win');
+                                                return 'p2';
+                                            }
                                         })
+                                        .attr('onclick', 'updateWinner(3, 1, '+l+')')
                                         .appendTo('div#singlebracket');
-                                    $(this).text('P2 Win');
-                                    return 'p2';
-                                }
-                                else{
                                     $(this).text('P1 Win');
                                     return 'p1';
                                 }
+                                else{
+                                    $(this).text('P2 Win');
+                                    return 'p2';
+                                }
                             })
+                            .attr('onclick', 'updateWinner(2, '+k+', '+l+')')
                             .appendTo('div#singlebracket');
-                        $(this).text('P2 Win');
-                        return 'p2';
+                        $(this).text('P1 Win');
+                        return 'p1';
                         }
                     else{
-                        $(this).text('P1 Win');
-                        return 'p1'
+                        $(this).text('P2 Win');
+                        return 'p2'
                     }
                 })
+                .attr('onclick', 'updateWinner(1, '+j+', '+l+')')
                 .appendTo('div#singlebracket');
         }
-        
     })
 }
 //builds list of brackets on existing table
@@ -168,6 +175,9 @@ function buildBracketList() {
         //adds string after last element in tbody
         $('#brackets').find('tbody:last').append(tableString);
     }*/
+}
+function updateWinner(round, match, player){
+    console.log("Round: " +round+ " Match: " +match+ " Player: " +player);
 }
 function validateLocation(loc){
     

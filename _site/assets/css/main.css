@@ -2466,38 +2466,39 @@ h3 {
 
 #singlebracket {
   height: 390px;
+  width: 980px;
   text-align: center;
   margin-left: 30px; }
   #singlebracket button {
     width: 70px;
     font-size: 10px;
     position: absolute; }
-  #singlebracket button.round1.match1 {
+  #singlebracket button.r1.m1 {
     top: 220px; }
-  #singlebracket button.round1.match2 {
+  #singlebracket button.r1.m2 {
     top: 315px; }
-  #singlebracket button.round1.match3 {
+  #singlebracket button.r1.m3 {
     top: 410px; }
-  #singlebracket button.round1.match4 {
+  #singlebracket button.r1.m4 {
     top: 505px; }
-  #singlebracket button.round1.p1 {
+  #singlebracket button.r1.p1 {
     left: 40px; }
-  #singlebracket button.round1.p2 {
+  #singlebracket button.r1.p2 {
     left: 120px; }
-  #singlebracket button.round2.match1 {
+  #singlebracket button.r2.m1 {
     top: 265px; }
-  #singlebracket button.round2.match2 {
+  #singlebracket button.r2.m2 {
     top: 455px; }
-  #singlebracket button.round2.p1 {
-    left: 410px; }
-  #singlebracket button.round2.p2 {
-    left: 490px; }
-  #singlebracket button.finals {
+  #singlebracket button.r2.p1 {
+    left: 360px; }
+  #singlebracket button.r2.p2 {
+    left: 440px; }
+  #singlebracket button.fin {
     top: 360px; }
-    #singlebracket button.finals.p1 {
-      left: 780px; }
-    #singlebracket button.finals.p2 {
-      left: 860px; }
+    #singlebracket button.fin.p1 {
+      left: 680px; }
+    #singlebracket button.fin.p2 {
+      left: 760px; }
 
 .nodeContainer {
   text-align: center; }

@@ -1,5 +1,6 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
+    header('Content-Type: application/json')
+    header('Access-Control-Allow-Origin: *');
 
    $json = $_POST['json'];
 
@@ -7,7 +8,7 @@
    if (json_decode($json) != null)
    {
      $file = fopen('general.json','w+');
-     fwrite($file, $json);
+     //fwrite($file, $json);
      fclose($file);
    }
    else
