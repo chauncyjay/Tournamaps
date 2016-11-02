@@ -18,14 +18,9 @@ $(document).ready(function () {
         $('#bracketheader').text(event.eventName +" Bracket");
 
         //creates bracket data structure
-        var bracketData = {
-            teams:
-                getBracket(event),
-            results: 
-                getResults(event)
-        };
         
-        displayBracket(bracketData);
+        updateBracket($('div#singlebracket'), event);
+        
     }
     if ($(location).attr('pathname') === COMMAND_URL){
         buildCommandNodes();
@@ -50,7 +45,7 @@ function saveFn(data, userData) {
     var json = jQuery.toJSON(data);
     console.log(json);
     
-    $.ajax({
+    /*$.ajax({
         type: "POST",
         dataType : 'json',
         async: false,
@@ -58,82 +53,8 @@ function saveFn(data, userData) {
         data: {data: data},
         success: function () {alert("Thanks!"); },
         failure: function() {alert("Error!");}
-    });
+    });*/
     
-}
-//gets bracket data and builds bracket
-function displayBracket(saveData) {
-    //actually builds the bracket with saving enabled
-    $(function() {
-        var container = $('div#singlebracket');
-        container.bracket({
-            teamWidth: 150,
-            scoreWidth: 20,
-            matchMargin: 50,
-            roundMargin: 150,
-            
-            disableToolbar: true,
-            disableTeamEdit: true,
-            
-            init: saveData,
-            save: saveFn,
-            userData: BRACKET_SAVE_FILE
-        });
-        //wtf is this callback hopefully it works
-        for(var i = 1; i <= 8; i++){
-            var j = Math.round(i/2);
-            var k = Math.round(i/4);
-            var l = (i % 2) + 1;
-            $('<button/>')
-                .addClass('r1')
-                .addClass(function(){
-                    return 'm' + j;
-                })
-                .addClass(function(){
-                    if (i % 2 === 0){
-                        $('<button/>')
-                            .addClass('r2')
-                            .addClass(function(){
-                                return 'm' + k;
-                            })
-                            .addClass(function(){
-                                if (i % 4 === 0){
-                                    $('<button/>')
-                                        .addClass('fin')
-                                        .addClass(function(){
-                                            if (i % 8 === 0){
-                                                $(this).text('P1 Win');
-                                                return 'p1';
-                                            }
-                                            else{
-                                                $(this).text('P2 Win');
-                                                return 'p2';
-                                            }
-                                        })
-                                        .attr('onclick', 'updateWinner(3, 1, '+l+')')
-                                        .appendTo('div#singlebracket');
-                                    $(this).text('P1 Win');
-                                    return 'p1';
-                                }
-                                else{
-                                    $(this).text('P2 Win');
-                                    return 'p2';
-                                }
-                            })
-                            .attr('onclick', 'updateWinner(2, '+k+', '+l+')')
-                            .appendTo('div#singlebracket');
-                        $(this).text('P1 Win');
-                        return 'p1';
-                        }
-                    else{
-                        $(this).text('P2 Win');
-                        return 'p2'
-                    }
-                })
-                .attr('onclick', 'updateWinner(1, '+j+', '+l+')')
-                .appendTo('div#singlebracket');
-        }
-    })
 }
 //builds list of brackets on existing table
 function buildBracketList() {
@@ -176,47 +97,67 @@ function buildBracketList() {
         $('#brackets').find('tbody:last').append(tableString);
     }*/
 }
-function updateWinner(round, match, player){
-    console.log("Round: " +round+ " Match: " +match+ " Player: " +player);
+//brackets data from src to container div
+function updateBracket(container, src){
+    var bracketData = {
+            teams:
+                initializeTeams(src),
+            results: 
+                initializeResults(src)
+    };
+    container.bracket(getBracketData(bracketData))
+    populateBracketButtons(container);
 }
-function validateLocation(loc){
-    
+//returns proper data structure for .bracket() function
+function getBracketData(src){
+    return {
+            teamWidth: 150,
+            scoreWidth: 20,
+            matchMargin: 50,
+            roundMargin: 150,
+            
+            disableToolbar: true,
+            disableTeamEdit: true,
+            
+            init: src,
+            save: saveFn,
+            userData: BRACKET_SAVE_FILE
+    };
 }
+
 function getBracketListData(){
-    var bracket = [];
+    var bracketList = [];
     for(var i = 1; i < 40; i++){
-        bracket.push({"Event Name": getEvent(i),
+        bracketList.push({"Event Name": getEvent(i),
                       "Location": getLocation(i),
                       "Complete": getStatus(i),
                       "Prized": getPrized(i)});
     }
-    return bracket;
+    return bracketList;
 }
 
-//gets the Player IDs and returns appropriate data structure
+//gets player names from array of matches and returns appropriate data structure
 // [["Player 1", "Player 8"],   match 1
 //  ["Player 4", "Player 5"],   match 2
 //  ["Player 3", "Player 6"],   match 3
 //  ["Player 2", "Player 7"]];  match 4
-function getBracket(event){
+function initializeTeams(psrc){
     var playersFormatted = [];
     for (var i = 0; i < 4; i++){
-        playersFormatted.push([getPlayerFullName(event.matches[i].playerOne), getPlayerFullName(event.matches[i].playerTwo)]);
+        playersFormatted.push([getPlayerFullName(psrc.matches[i].playerOne), getPlayerFullName(psrc.matches[i].playerTwo)]);
     }
-    //console.log(playersFormatted);
     return playersFormatted;
 }
 
-//gets results andn returns appropriate data structure
+//gets results from array of matches and returns appropriate data structure
 //[[[[a, b], [c, d], [e, f], [g, h]],   round 1
 //  [[i, j], [k, l]],                   round 2
 //  [[m, n], [o, p]]]]                  finals/loser
-function getResults(bracket){
+function initializeResults(rsrc){
     var resultsFormatted = [[]];
     //round 1
     for (var i = 0; i < 4; i++){
-        resultsFormatted[0].push([bracket.matches[i].playerOnePoints, bracket.matches[i].playerTwoPoints]);
-        //console.log(resultsFormatted[0][i])
+        resultsFormatted[0].push([rsrc.matches[i].playerOnePoints, rsrc.matches[i].playerTwoPoints]);
     }
     //round 2
     for (var j = 0; j < 2; j++){
@@ -252,4 +193,60 @@ function getPrized(num) {
     } else {
         return 'Complete';
     }
+}
+function populateBracketButtons(container){
+    //wtf is this callback hopefully it works
+    for(var i = 1; i <= 8; i++){
+            var j = Math.round(i/2);
+            var k = Math.round(i/4);
+            var l = (i % 2) + 1;
+            $('<button/>')
+                .addClass('r1')
+                .addClass(function(){
+                    return 'm' + j;
+                })
+                .addClass(function(){
+                    if (i % 2 === 0){
+                        $('<button/>')
+                            .addClass('r2')
+                            .addClass(function(){
+                                return 'm' + k;
+                            })
+                            .addClass(function(){
+                                if (i % 4 === 0){
+                                    $('<button/>')
+                                        .addClass('fin')
+                                        .addClass(function(){
+                                            if (i % 8 === 0){
+                                                $(this).text('P1 Win');
+                                                return 'p1';
+                                            }
+                                            else{
+                                                $(this).text('P2 Win');
+                                                return 'p2';
+                                            }
+                                        })
+                                        .attr('onclick', 'updateScore(3, 1, '+l+', 2)')
+                                        .appendTo(container);
+                                    $(this).text('P1 Win');
+                                    return 'p1';
+                                }
+                                else{
+                                    $(this).text('P2 Win');
+                                    return 'p2';
+                                }
+                            })
+                            .attr('onclick', 'updateScore(2, '+k+', '+l+')')
+                            .appendTo(container);
+                        $(this).text('P1 Win');
+                        return 'p1';
+                        }
+                    else{
+                        $(this).text('P2 Win');
+                        return 'p2'
+                    }
+                })
+                .attr('onclick', 'updateScore(1, '+j+', '+l+', 2)')
+                .appendTo(container);
+        }
 }
