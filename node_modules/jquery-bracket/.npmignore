@@ -1,0 +1,8 @@
+.idea
+*.iml
+*.map
+.sass-cache
+node_modules
+bower_components
+dist/jquery.bracket.css
+dist/jquery.bracket.js
