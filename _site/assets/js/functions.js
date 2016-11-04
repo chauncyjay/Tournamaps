@@ -262,15 +262,16 @@ function populateBracketButtons(cont){
                                     })
                                     .attr('onclick', 'updateWinner(3, 1, '+l+')')
                                     .appendTo(cont);
-                                $(this).text('P1 Win');
+                                $(this).text('P1 Win')
+                                    .attr('onclick', 'updateWinner(2, '+k+', '+l+')');
                                 return 'p1';
                             }
                             else{
-                                $(this).text('P2 Win');
+                                $(this).text('P2 Win')
+                                    .attr('onclick', 'updateWinner(2, '+k+', '+(l+1)+')');
                                 return 'p2';
                             }
                         })
-                        .attr('onclick', 'updateWinner(2, '+k+', '+l+')')
                         .appendTo(cont);
                     $(this).text('P1 Win');
                     return 'p1';
