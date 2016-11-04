@@ -192,7 +192,6 @@ function getJQBracketResults(e){
     var resultsFormatted = [[]];
     
     var round1 = [];
-    console.log(e.matches.length);
     for (var i = 0; i < 4; i++){
         round1.push([e.matches[i].playerOnePoints, e.matches[i].playerTwoPoints]);
     }
