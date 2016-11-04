@@ -236,62 +236,28 @@ function getPrized(num) {
         return 'Complete';
     }
 }
-//wtf is this callback
-function populateBracketButtons(cont){
-    for(var i = 1; i <= 8; i++){
-        var j = Math.round(i/2);
-        var k = Math.round(i/4);
-        var l = (i % 2) + 1;
-        $('<button/>')
-            .addClass('r1')
-            .addClass(function(){
-                return 'm' + j;
-            })
-            .addClass(function(){
-                if (i % 2 === 0){
-                    $('<button/>')
-                        .addClass('r2')
-                        .addClass(function(){
-                            return 'm' + k;
-                        })
-                        .addClass(function(){
-                            if (i % 4 === 0){
-                                $('<button/>')
-                                    .addClass('fin')
-                                    .addClass(function(){
-                                        if (i % 8 === 0){
-                                            $(this).text('P1 Win')
-                                                .attr('onclick', 'updateWinner(3, 1, '+l+')');
-                                            return 'p1';
-                                        }
-                                        else{
-                                            $(this).text('P2 Win')
-                                                .attr('onclick', 'updateWinner(3, 1, '+(l+1)+')');
-                                            return 'p2';
-                                        }
-                                    })
-                                    //.attr('onclick', 'updateWinner(3, 1, '+l+')')
-                                    .appendTo(cont);
-                                $(this).text('P1 Win')
-                                    .attr('onclick', 'updateWinner(2, '+k+', '+l+')');
-                                return 'p1';
-                            }
-                            else{
-                                $(this).text('P2 Win')
-                                    .attr('onclick', 'updateWinner(2, '+k+', '+(l+1)+')');
-                                return 'p2';
-                            }
-                        })
-                        .appendTo(cont);
-                    $(this).text('P1 Win');
-                    return 'p1';
-                    }
-                else{
-                    $(this).text('P2 Win');
-                    return 'p2'
-                }
-            })
-            .attr('onclick', 'updateWinner(1, '+j+', '+l+')')
-            .appendTo(cont);
+
+function populateBracketButtons(cont) {
+    createRoundButtons(1,4,cont);
+    createRoundButtons(2,2,cont);
+    createRoundButtons(3,1,cont);
+}
+
+function createRoundButtons(round,matches,cont) {
+    for(var match=1;match<=matches;match++) {
+        for(var player=1;player<=2;player++) {
+            var onclickFunction = 'updateWinner('+round+','+match+','+player+')';
+            var text = 'P'+player+' Win';
+            var buttonName = "r"+round+" m"+match;
+            if(round === 3) {
+                buttonName = 'fin';
+            }
+            buttonName+=" p"+player;
+            $('<button/>')
+                .addClass(buttonName)
+                .attr('onclick', onclickFunction)
+                .text(text)
+                .appendTo(cont);
+        }
     }
 }
