@@ -2468,56 +2468,66 @@ h3 {
   height: 390px;
   width: 980px;
   text-align: center;
-  margin-left: 30px; }
-  #singlebracket button::moz-focus-inner {
-    padding: 0;
-    border: 0; }
-  #singlebracket button {
-    background: #ccc;
-    text-color: #fff;
-    width: 20px;
-    height: 22px;
-    font-size: 12px;
-    position: absolute;
-    z-index: 9999;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    border: 2px solid black; }
-  #singlebracket button.r1 {
-    left: 190px; }
-    #singlebracket button.r1.m1.p1 {
-      top: 165px; }
-    #singlebracket button.r1.m1.p2 {
-      top: 188px; }
-    #singlebracket button.r1.m2.p1 {
-      top: 260px; }
-    #singlebracket button.r1.m2.p2 {
-      top: 283px; }
-    #singlebracket button.r1.m3.p1 {
-      top: 355px; }
-    #singlebracket button.r1.m3.p2 {
-      top: 378px; }
-    #singlebracket button.r1.m4.p1 {
-      top: 450px; }
-    #singlebracket button.r1.m4.p2 {
-      top: 473px; }
-  #singlebracket button.r2 {
-    left: 510px; }
-    #singlebracket button.r2.m1.p1 {
-      top: 213px; }
-    #singlebracket button.r2.m1.p2 {
-      top: 236px; }
-    #singlebracket button.r2.m2.p1 {
-      top: 403px; }
-    #singlebracket button.r2.m2.p2 {
-      top: 426px; }
-  #singlebracket button.fin {
-    left: 830px; }
-    #singlebracket button.fin.p1 {
-      top: 307px; }
-    #singlebracket button.fin.p2 {
-      top: 331px; }
+  margin-left: 30px;
+  /*button::moz-focus-inner
+   * padding: 0
+   * border: 0 */
+  /*button
+   * background: #ccc
+   * text-color: #fff
+   * width: 20px
+   * height: 22px
+   * font-size: 12px
+   * position: absolute
+   * z-index: 9999
+   * text-align: center
+   * padding: 0
+   * margin: 0
+   * border: 2px solid black */
+  /*button.r1
+   * left: 190px
+   * &.m1.p1
+   *     top: 165px
+   * &.m1.p2
+   *     top: 188px
+   * &.m2.p1
+   *     top: 260px
+   * &.m2.p2
+   *     top: 283px
+   * &.m3.p1
+   *     top: 355px
+   * &.m3.p2
+   *     top: 378px
+   * &.m4.p1
+   *     top: 450px
+   * &.m4.p2
+   *     top: 473px     */
+  /*button.r2
+   * left: 510px
+   * &.m1.p1
+   *     top: 213px
+   * &.m1.p2
+   *     top: 236px
+   * &.m2.p1
+   *     top: 403px
+   * &.m2.p2
+   *     top: 426px */
+  /*button.fin
+   * left: 830px
+   * &.p1
+   *     top: 307px
+   * &.p2
+   *     top: 331px */ }
+  #singlebracket .score {
+    display: inline-block;
+    border: 1px solid #999;
+    background: #AAA;
+    box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center; }
+    #singlebracket .score:hover {
+      background: #fff; }
 
 .nodeContainer {
   text-align: center; }

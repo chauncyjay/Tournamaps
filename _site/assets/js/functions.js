@@ -151,7 +151,6 @@ function updateWinner(round, match, player){
     console.log(newResults);
         
     updateBracket(container, {teams:container.bracket('data').teams, results:newResults});
-    
 }
 function formatCurrentResults(array){
     var resultsFormatted = [[]];
@@ -237,15 +236,18 @@ function getPrized(num) {
         return 'Complete';
     }
 }
-//wtf is this callback
+
 function populateBracketButtons(cont) {
-    createRoundButtons(1,4,cont);
-    createRoundButtons(2,2,cont);
-    createRoundButtons(3,1,cont);
+    // createRoundButtons(1,4,cont);
+    // createRoundButtons(2,2,cont);
+    // createRoundButtons(3,1,cont);
 }
+
 function createRoundButtons(round,matches,cont) {
     for(var match=1;match<=matches;match++) {
         for(var player=1;player<=2;player++) {
+            var onclickFunction = 'updateWinner('+round+','+match+','+player+')';
+            var text = 'P'+player+' Win';
             var buttonName = "r"+round+" m"+match;
             if(round === 3) {
                 buttonName = 'fin';
@@ -253,8 +255,8 @@ function createRoundButtons(round,matches,cont) {
             buttonName+=" p"+player;
             $('<button/>')
                 .addClass(buttonName)
-                .attr('onclick', 'updateWinner('+round+','+match+','+player+')')
-                .text('W')
+                .attr('onclick', onclickFunction)
+                .text(text)
                 .appendTo(cont);
         }
     }
