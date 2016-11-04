@@ -88,7 +88,7 @@ function parseMatches(players, wer){
 }
 function getPoints(player, match){
     if (match.getAttribute('outcome') === "2"){
-        return 0;
+        return null;
     }
     else if(player.dci === match.getAttribute('person') && match.getAttribute('outcome') === "1"){
         return parseInt(match.getAttribute('win'));

@@ -151,6 +151,7 @@ function updateWinner(round, match, player){
     console.log(newResults);
         
     updateBracket(container, {teams:container.bracket('data').teams, results:newResults});
+    
 }
 function formatCurrentResults(array){
     var resultsFormatted = [[]];
@@ -236,18 +237,37 @@ function getPrized(num) {
         return 'Complete';
     }
 }
+<<<<<<< Updated upstream
 
+=======
+//wtf is this callback
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 function populateBracketButtons(cont) {
     createRoundButtons(1,4,cont);
     createRoundButtons(2,2,cont);
     createRoundButtons(3,1,cont);
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 function createRoundButtons(round,matches,cont) {
     for(var match=1;match<=matches;match++) {
         for(var player=1;player<=2;player++) {
             var onclickFunction = 'updateWinner('+round+','+match+','+player+')';
             var text = 'P'+player+' Win';
+=======
+function createRoundButtons(round,matches,cont) {
+    for(var match=1;match<=matches;match++) {
+        for(var player=1;player<=2;player++) {
+>>>>>>> Stashed changes
+=======
+function createRoundButtons(round,matches,cont) {
+    for(var match=1;match<=matches;match++) {
+        for(var player=1;player<=2;player++) {
+>>>>>>> Stashed changes
             var buttonName = "r"+round+" m"+match;
             if(round === 3) {
                 buttonName = 'fin';
@@ -255,8 +275,18 @@ function createRoundButtons(round,matches,cont) {
             buttonName+=" p"+player;
             $('<button/>')
                 .addClass(buttonName)
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 .attr('onclick', onclickFunction)
                 .text(text)
+=======
+                .attr('onclick', 'updateWinner('+round+','+match+','+player+')')
+                .text('W')
+>>>>>>> Stashed changes
+=======
+                .attr('onclick', 'updateWinner('+round+','+match+','+player+')')
+                .text('W')
+>>>>>>> Stashed changes
                 .appendTo(cont);
         }
     }
