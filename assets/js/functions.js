@@ -128,16 +128,24 @@ function buildBracketList() {
         $('#brackets').find('tbody:last').append(tableString);
     }*/
 }
+
+function getCurrentResult(round, match, player) {
+    var container = $('div#singlebracket');
+    return container.bracket('data').results[0][round-1][match-1][player-1];
+}
 //updates winner by doing things
 function updateWinner(round, match, player){
     console.log("Round: " +round+ " Match: " +match+ " Player: " +player);
     var container = $('div#singlebracket');
     var newResults = container.bracket('data').results;
+    var currentResult = getCurrentResult(round, match, player);
     console.log(newResults);
-    if (player === 1)
-        newResults[0][round-1][match-1] = [2, 0]
+    if(currentResult === 1)
+        newResults[0][round-1][match-1] = [null, null]
+    else if (player === 1)
+        newResults[0][round-1][match-1] = [1, 0]
     else if (player === 2)
-        newResults[0][round-1][match-1] = [0, 2]
+        newResults[0][round-1][match-1] = [0, 1]
     else
         console.log("Invalid player number, score not updated.")
     console.log(newResults);
@@ -184,21 +192,22 @@ function getJQBracketResults(e){
     var resultsFormatted = [[]];
     
     var round1 = [];
+    console.log(e.matches.length);
     for (var i = 0; i < 4; i++){
         round1.push([e.matches[i].playerOnePoints, e.matches[i].playerTwoPoints]);
     }
     resultsFormatted[0].push(round1);
     
-    var round2 = []
+    var round2 = [];
     for (var j = 0; j < 2; j++){
-        round2.push([null, null]);
+        round2.push([e.matches[j+4].playerOnePoints, e.matches[j+4].playerTwoPoints]);
     }
     resultsFormatted[0].push(round2);
     
     var finals = []
-    for (var k = 0; k < 2; k++){
-        finals.push([null, null]);
-    }
+    finals.push([e.matches[6].playerOnePoints, e.matches[6].playerTwoPoints]);
+    finals.push([null, null]);
+
     resultsFormatted[0].push(finals);
     
     return resultsFormatted;
@@ -252,15 +261,17 @@ function populateBracketButtons(cont){
                                     .addClass('fin')
                                     .addClass(function(){
                                         if (i % 8 === 0){
-                                            $(this).text('P1 Win');
+                                            $(this).text('P1 Win')
+                                                .attr('onclick', 'updateWinner(3, 1, '+l+')');
                                             return 'p1';
                                         }
                                         else{
-                                            $(this).text('P2 Win');
+                                            $(this).text('P2 Win')
+                                                .attr('onclick', 'updateWinner(3, 1, '+(l+1)+')');
                                             return 'p2';
                                         }
                                     })
-                                    .attr('onclick', 'updateWinner(3, 1, '+l+')')
+                                    //.attr('onclick', 'updateWinner(3, 1, '+l+')')
                                     .appendTo(cont);
                                 $(this).text('P1 Win')
                                     .attr('onclick', 'updateWinner(2, '+k+', '+l+')');
