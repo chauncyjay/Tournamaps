@@ -692,7 +692,6 @@
         var topCon = $('<div class="jQBracket ' + opts.dir + '"></div>').appendTo(opts.el.empty());
         var w, l, f;
         function renderAll(save) {
-            console.log("Rendering.")
             resultIdentifier = 0;
             w.render();
             if (l) {

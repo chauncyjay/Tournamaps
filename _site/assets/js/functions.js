@@ -13,7 +13,7 @@ $(document).ready(function () {
         buildBracketList();
     }
     if ($(location).attr('pathname') === BRACKET_URL) {  //only runs on bracket page
-        var container = $('div#singlebracket');
+        var bracketContainer = $('div#singlebracket');
         var WERevent = createEventWithWERfile(WER_URL);
         //sets heading to name of bracket
         $('#bracketheader').text(WERevent.eventName +" Bracket");
@@ -26,7 +26,7 @@ $(document).ready(function () {
                 getJQBracketResults(WERevent)
         };
         
-        updateBracket(container, bracketData);
+        updateBracket(bracketContainer, bracketData);
     }
     if ($(location).attr('pathname') === COMMAND_URL){
         buildCommandNodes();
@@ -130,11 +130,25 @@ function buildBracketList() {
 }
 //updates winner by doing things
 function updateWinner(round, match, player){
-    //console.log("Round: " +round+ " Match: " +match+ " Player: " +player);
-    var winner = $('div.bracket .round:nth-child('+round+') .match:nth-child('+match+') .teamContainer .team:nth-child('+player+')');
-    var loser = $('div.bracket .round:nth-child('+round+') .match:nth-child('+match+') .teamContainer .team:nth-child('+((player%2)+1)+')');
-    winner.addClass('win').find('.score').focus();//.append(document.createTextNode('2'));
-    loser.removeClass('win').find('.score').text('0');
+    console.log("Round: " +round+ " Match: " +match+ " Player: " +player);
+    var container = $('div#singlebracket');
+    var newResults = container.bracket('data').results;
+    console.log(newResults);
+    if (player === 1)
+        newResults[0][round-1][match-1] = [2, 0]
+    else if (player === 2)
+        newResults[0][round-1][match-1] = [0, 2]
+    else
+        console.log("Invalid player number, score not updated.")
+    console.log(newResults);
+        
+    updateBracket(container, {teams:container.bracket('data').teams, results:newResults});
+}
+function formatCurrentResults(array){
+    var resultsFormatted = [[]];
+    for (var i = 0; i < array.length; i++){
+        
+    }
 }
 //returns array list of brackets for JSGrid
 function getBracketListData(){
@@ -168,19 +182,25 @@ function getJQBracketPlayers(e){
 //  [[m, n], [o, p]]]]                  finals/loser
 function getJQBracketResults(e){
     var resultsFormatted = [[]];
-    //round 1
+    
+    var round1 = [];
     for (var i = 0; i < 4; i++){
-        resultsFormatted[0].push([e.matches[i].playerOnePoints, e.matches[i].playerTwoPoints]);
-        //console.log(resultsFormatted[0][i])
+        round1.push([e.matches[i].playerOnePoints, e.matches[i].playerTwoPoints]);
     }
-    //round 2
+    resultsFormatted[0].push(round1);
+    
+    var round2 = []
     for (var j = 0; j < 2; j++){
-        resultsFormatted[0].push([null, null]);
+        round2.push([null, null]);
     }
-    //finals/loser
+    resultsFormatted[0].push(round2);
+    
+    var finals = []
     for (var k = 0; k < 2; k++){
-        resultsFormatted[0].push([null, null]);
+        finals.push([null, null]);
     }
+    resultsFormatted[0].push(finals);
+    
     return resultsFormatted;
 }
 
