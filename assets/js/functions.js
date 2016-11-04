@@ -238,9 +238,9 @@ function getPrized(num) {
 }
 
 function populateBracketButtons(cont) {
-    createRoundButtons(1,4,cont);
-    createRoundButtons(2,2,cont);
-    createRoundButtons(3,1,cont);
+    // createRoundButtons(1,4,cont);
+    // createRoundButtons(2,2,cont);
+    // createRoundButtons(3,1,cont);
 }
 
 function createRoundButtons(round,matches,cont) {

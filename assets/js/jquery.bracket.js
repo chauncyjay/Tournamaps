@@ -714,13 +714,65 @@
                 }
             }
         }
+        function getButtonClass(rId) {
+            var rmp = getRoundMatchPlayer(rId);
+            var returnString='r'+rmp[0]+' m'+rmp[1];
+            if(rmp[0] === 3) {
+                returnString = 'fin';
+            }
+            returnString += ' p'+rmp[2];
+            return returnString;
+        }
+        function getOnClick(rId) {
+            var rmp = getRoundMatchPlayer(rId);
+            return 'updateWinner('+rmp[0]+','+rmp[1]+','+rmp[2]+')';
+        }
+        function getRoundMatchPlayer(rId) {
+            switch(rId) {
+                case 0:
+                    return [1,1,1];
+                case 1:
+                    return [1,1,2];
+                case 2:
+                    return [1,2,1];
+                case 3:
+                    return [1,2,2];
+                case 4:
+                    return [1,3,1];
+                case 5:
+                    return [1,3,2];
+                case 6:
+                    return [1,4,1];
+                case 7:
+                    return [1,4,2];
+                case 8:
+                    return [2,1,1];
+                case 9:
+                    return [2,1,2];
+                case 10:
+                    return [2,2,1];
+                case 11:
+                    return [2,2,2];
+                case 12:
+                    return [3,1,1];
+                case 13:
+                    return [3,1,2];
+                default:
+                    return [4,1,1];
+            }
+        }
         function teamElement(round, match, team, opponent, isReady, isFirstBracket, opts) {
             var rId = resultIdentifier;
-            var sEl = $("<div class=\"score\" style=\"width: " + opts.scoreWidth + "px;\" data-resultid=\"result-' + rId + '\"></div>");
+            //var sEl = $("<div class=\"score\" style=\"width: " + opts.scoreWidth + "px;\" data-resultid=\"result-' + rId + '\"></div>");
             var score = (team.name.isEmpty() || opponent.name.isEmpty() || !isReady)
                 ? '--'
                 : (team.score === null || !isNumber(team.score) ? '--' : team.score);
-            sEl.text(score);
+            //sEl.text(rId);
+            var buttonClass = getButtonClass(rId);
+            var onclickString = getOnClick(rId);
+            var bEl = $("<div class=\"score\" style=\"width: " + opts.scoreWidth + "px;\" data-resultid=\"result-' + rId + '\"></div>")
+                //.addClass(buttonClass)
+                .attr('onclick',onclickString).text('W');
             resultIdentifier += 1;
             var name = team.name.orElseGet(function () {
                 var type = team.emptyBranch();
@@ -752,7 +804,7 @@
             else if (match.loser().name === team.name) {
                 tEl.addClass('lose');
             }
-            tEl.append(sEl);
+            tEl.append(bEl);
             // Only first round of BYEs can be edited
             if ((!team.name.isEmpty() || (team.name.isEmpty() && round === 0 && isFirstBracket)) && typeof (opts.save) === 'function') {
                 if (!opts.disableTeamEdit) {
@@ -775,56 +827,56 @@
                         editor();
                     });
                 }
-                if (!team.name.isEmpty() && !opponent.name.isEmpty() && isReady) {
-                    sEl.addClass('editable');
-                    sEl.click(function () {
-                        var span = $(this);
-                        function editor() {
-                            span.unbind();
-                            var score = !isNumber(team.score) ? '0' : span.text();
-                            var input = $('<input type="text">');
-                            input.val(score);
-                            span.empty().append(input);
-                            input.focus().select();
-                            input.keydown(function (e) {
-                                if (!isNumber($(this).val())) {
-                                    $(this).addClass('error');
-                                }
-                                else {
-                                    $(this).removeClass('error');
-                                }
-                                var key = (e.keyCode || e.which);
-                                if (key === 9 || key === 13 || key === 27) {
-                                    e.preventDefault();
-                                    $(this).blur();
-                                    if (key === 27) {
-                                        return;
-                                    }
-                                    var next = topCon.find('div.score[data-resultid=result-' + (rId + 1) + ']');
-                                    if (next) {
-                                        next.click();
-                                    }
-                                }
-                            });
-                            input.blur(function () {
-                                var val = input.val();
-                                if ((!val || !isNumber(val)) && !isNumber(team.score)) {
-                                    val = '0';
-                                }
-                                else if ((!val || !isNumber(val)) && isNumber(team.score)) {
-                                    val = team.score;
-                                }
-                                span.html(val);
-                                if (isNumber(val)) {
-                                    team.score = parseInt(val, 10);
-                                    renderAll(true);
-                                }
-                                span.click(editor);
-                            });
-                        }
-                        editor();
-                    });
-                }
+                // if (!team.name.isEmpty() && !opponent.name.isEmpty() && isReady) {
+                //     sEl.addClass('editable');
+                //     sEl.click(function () {
+                //         var span = $(this);
+                //         function editor() {
+                //             span.unbind();
+                //             var score = !isNumber(team.score) ? '0' : span.text();
+                //             var input = $('<input type="text">');
+                //             input.val(score);
+                //             span.empty().append(input);
+                //             input.focus().select();
+                //             input.keydown(function (e) {
+                //                 if (!isNumber($(this).val())) {
+                //                     $(this).addClass('error');
+                //                 }
+                //                 else {
+                //                     $(this).removeClass('error');
+                //                 }
+                //                 var key = (e.keyCode || e.which);
+                //                 if (key === 9 || key === 13 || key === 27) {
+                //                     e.preventDefault();
+                //                     $(this).blur();
+                //                     if (key === 27) {
+                //                         return;
+                //                     }
+                //                     var next = topCon.find('div.score[data-resultid=result-' + (rId + 1) + ']');
+                //                     if (next) {
+                //                         next.click();
+                //                     }
+                //                 }
+                //             });
+                //             input.blur(function () {
+                //                 var val = input.val();
+                //                 if ((!val || !isNumber(val)) && !isNumber(team.score)) {
+                //                     val = '0';
+                //                 }
+                //                 else if ((!val || !isNumber(val)) && isNumber(team.score)) {
+                //                     val = team.score;
+                //                 }
+                //                 span.html(val);
+                //                 if (isNumber(val)) {
+                //                     team.score = parseInt(val, 10);
+                //                     renderAll(true);
+                //                 }
+                //                 span.click(editor);
+                //             });
+                //         }
+                //         editor();
+                //     });
+                // }
             }
             return tEl;
         }
