@@ -714,64 +714,50 @@
                 }
             }
         }
-        function getButtonClass(rId) {
-            var rmp = getRoundMatchPlayer(rId);
-            var returnString='r'+rmp[0]+' m'+rmp[1];
-            if(rmp[0] === 3) {
-                returnString = 'fin';
-            }
-            returnString += ' p'+rmp[2];
-            return returnString;
-        }
         function getOnClick(rId) {
             var rmp = getRoundMatchPlayer(rId);
             return 'updateWinner('+rmp[0]+','+rmp[1]+','+rmp[2]+')';
         }
-        function getRoundMatchPlayer(rId) {
-            switch(rId) {
-                case 0:
-                    return [1,1,1];
-                case 1:
-                    return [1,1,2];
-                case 2:
-                    return [1,2,1];
-                case 3:
-                    return [1,2,2];
-                case 4:
-                    return [1,3,1];
-                case 5:
-                    return [1,3,2];
-                case 6:
-                    return [1,4,1];
-                case 7:
-                    return [1,4,2];
-                case 8:
-                    return [2,1,1];
-                case 9:
-                    return [2,1,2];
-                case 10:
-                    return [2,2,1];
-                case 11:
-                    return [2,2,2];
-                case 12:
-                    return [3,1,1];
-                case 13:
-                    return [3,1,2];
-                default:
-                    return [4,1,1];
+        function getRoundSizes() {
+            var roundSizes = new Array();
+            for(var i=0;i<data.results[0].length;i++) {
+                roundSizes.push(data.results[0][i].length*2);
             }
+            return roundSizes;
+        }
+        function getRound(roundSizes,rId) {
+            var runningSum=0;
+            for(var i=1;i<=roundSizes.length;i++) {
+                runningSum+=roundSizes[i-1];
+                if(rId < runningSum)
+                    return i;
+            }
+            return i;
+        }
+        function getMatchPlayer(roundSizes,rId,round) {
+            var runningSum = 0;
+            for(var i=1;i<round;i++) {
+                runningSum += roundSizes[i-1];
+            }
+            var offsetRId = rId-runningSum;
+            var player = offsetRId%2 === 0?1:2;
+            var match = (offsetRId-(player-1))/2+1;
+            return [match,player];
+        }
+        function getRoundMatchPlayer(rId) {
+            var roundSizes = getRoundSizes();
+            var round = getRound(roundSizes,rId);
+            var matchPlayer = getMatchPlayer(roundSizes,rId,round);
+
+            return [round,matchPlayer[0],matchPlayer[1]];
         }
         function teamElement(round, match, team, opponent, isReady, isFirstBracket, opts) {
             var rId = resultIdentifier;
-            //var sEl = $("<div class=\"score\" style=\"width: " + opts.scoreWidth + "px;\" data-resultid=\"result-' + rId + '\"></div>");
             var score = (team.name.isEmpty() || opponent.name.isEmpty() || !isReady)
                 ? '--'
                 : (team.score === null || !isNumber(team.score) ? '--' : team.score);
-            //sEl.text(rId);
-            var buttonClass = getButtonClass(rId);
             var onclickString = getOnClick(rId);
             var bEl = $("<div class=\"score\" style=\"width: " + opts.scoreWidth + "px;\" data-resultid=\"result-' + rId + '\"></div>")
-                //.addClass(buttonClass)
                 .attr('onclick',onclickString).text('W');
             resultIdentifier += 1;
             var name = team.name.orElseGet(function () {
@@ -827,56 +813,6 @@
                         editor();
                     });
                 }
-                // if (!team.name.isEmpty() && !opponent.name.isEmpty() && isReady) {
-                //     sEl.addClass('editable');
-                //     sEl.click(function () {
-                //         var span = $(this);
-                //         function editor() {
-                //             span.unbind();
-                //             var score = !isNumber(team.score) ? '0' : span.text();
-                //             var input = $('<input type="text">');
-                //             input.val(score);
-                //             span.empty().append(input);
-                //             input.focus().select();
-                //             input.keydown(function (e) {
-                //                 if (!isNumber($(this).val())) {
-                //                     $(this).addClass('error');
-                //                 }
-                //                 else {
-                //                     $(this).removeClass('error');
-                //                 }
-                //                 var key = (e.keyCode || e.which);
-                //                 if (key === 9 || key === 13 || key === 27) {
-                //                     e.preventDefault();
-                //                     $(this).blur();
-                //                     if (key === 27) {
-                //                         return;
-                //                     }
-                //                     var next = topCon.find('div.score[data-resultid=result-' + (rId + 1) + ']');
-                //                     if (next) {
-                //                         next.click();
-                //                     }
-                //                 }
-                //             });
-                //             input.blur(function () {
-                //                 var val = input.val();
-                //                 if ((!val || !isNumber(val)) && !isNumber(team.score)) {
-                //                     val = '0';
-                //                 }
-                //                 else if ((!val || !isNumber(val)) && isNumber(team.score)) {
-                //                     val = team.score;
-                //                 }
-                //                 span.html(val);
-                //                 if (isNumber(val)) {
-                //                     team.score = parseInt(val, 10);
-                //                     renderAll(true);
-                //                 }
-                //                 span.click(editor);
-                //             });
-                //         }
-                //         editor();
-                //     });
-                // }
             }
             return tEl;
         }

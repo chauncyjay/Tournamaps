@@ -4,7 +4,7 @@ var BRACKET_URL = '/bracket.html',
     PRIZED_URL = '',
     BRACKET_LIST_URL = '/bracketlist.html',
     COMMAND_URL = '/command.html',
-    WER_URL = "/assets/werFiles/example.wer",
+    WER_URL = "localhost:3000/public/wer/example.wer",
     BRACKET_SAVE_FILE = "/assets/php/jsonSave.php";
 
 $(document).ready(function () {
