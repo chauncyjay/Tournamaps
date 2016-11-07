@@ -956,11 +956,17 @@
             };
         }
         function getSeatingIndex(i) {
-            var index=[1,5,3,7,2,6,4,8];
-            return index[i]-1;
+            var index=[0,1,2,3,4,5,6,7];
+            if(opts.eventType === "Draft") {
+                index=[0,4,2,6,1,5,3,7];
+            }
+            if(opts.eventType === "Constructed") {
+                index=[0,7,2,5,1,6,3,4];
+            }
+            return index[i];
         }
         function makeSeating(seatingCont, teams) {
-            var playerArray = new Array();
+            var playerArray = [];
             for(var i=0;i<teams.length;i++) {
                 for(var j=0;j<teams[i].length;j++) {
                     var index = 2*i+j;
@@ -968,13 +974,13 @@
                 }
             }
             var nEl;
-            for(var seat=0;seat < 4;seat++) {
+            for(var seat=0;seat < playerArray.length/2;seat++) {
                 nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
                 opts.decorator.render(nEl, playerArray[seat], null);
             }
             var tableElement = $('<div class=\"seatingTable\"></div>');
             tableElement.appendTo(seatingCont);
-            for(seat=7;seat >= 4;seat--) {
+            for(seat=playerArray.length-1;seat >= playerArray.length/2;seat--) {
                 nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
                 opts.decorator.render(nEl, playerArray[seat], null);
             }

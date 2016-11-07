@@ -80,6 +80,8 @@ function getJQBracketData(d){
         disableTeamEdit: true,
         skipConsolationRound: true,
 
+        eventType: "Draft",
+
         showPrizes: true,
         showSeating: true,
 
