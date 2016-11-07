@@ -77,7 +77,6 @@ function getJQBracketData(d){
         roundMargin: 150,
 
         disableToolbar: true,
-        disableTeamEdit: true,
         skipConsolationRound: true,
 
         eventType: "Draft",
