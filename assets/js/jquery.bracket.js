@@ -976,7 +976,7 @@
             return playerArray;
         }
         function makeSeatingRow(playerArray, side) {
-            var row = $("<div class=\""+side+"Row\" style=\"width: " + opts.teamWidth + "px;\"></div>");
+            var row = $("<div class=\""+side+"Row\"></div>");
             var nEl;
             if(side==="top") {
                 for(var seat=0;seat < playerArray.length/2;seat++) {

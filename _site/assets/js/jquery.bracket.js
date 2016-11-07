@@ -965,7 +965,7 @@
             }
             return index[i];
         }
-        function makeSeating(seatingCont, teams) {
+        function getPlayerArray(teams) {
             var playerArray = [];
             for(var i=0;i<teams.length;i++) {
                 for(var j=0;j<teams[i].length;j++) {
@@ -973,17 +973,32 @@
                     playerArray[getSeatingIndex(index)] = teams[i][j].val;
                 }
             }
+            return playerArray;
+        }
+        function makeSeatingRow(playerArray, side) {
+            var row = $("<div class=\""+side+"Row\"></div>");
             var nEl;
-            for(var seat=0;seat < playerArray.length/2;seat++) {
-                nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
-                opts.decorator.render(nEl, playerArray[seat], null);
+            if(side==="top") {
+                for(var seat=0;seat < playerArray.length/2;seat++) {
+                    nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(row);
+                    opts.decorator.render(nEl, playerArray[seat], null);
+                }
+            } else if(side==="bottom") {
+                for(seat=playerArray.length-1;seat >= playerArray.length/2;seat--) {
+                    nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(row);
+                    opts.decorator.render(nEl, playerArray[seat], null);
+                }
             }
+            return row;
+        }
+        function makeSeating(seatingCont, teams) {
+            var playerArray = getPlayerArray(teams);
+            var topRowEl = makeSeatingRow(playerArray,"top");
+            topRowEl.appendTo(seatingCont);
             var tableElement = $('<div class=\"seatingTable\"></div>');
             tableElement.appendTo(seatingCont);
-            for(seat=playerArray.length-1;seat >= playerArray.length/2;seat--) {
-                nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
-                opts.decorator.render(nEl, playerArray[seat], null);
-            }
+            var bottomRowEl = makeSeatingRow(playerArray,"bottom");
+            bottomRowEl.appendTo(seatingCont);
         }
         /* wrap data to into necessary arrays */
         var r = wrap(data.results, 4 - depth(data.results));

@@ -73,7 +73,7 @@ function getJQBracketData(d){
     return {
         teamWidth: 150,
         scoreWidth: 20,
-        matchMargin: 50,
+        matchMargin: 40,
         roundMargin: 150,
 
         disableToolbar: true,
