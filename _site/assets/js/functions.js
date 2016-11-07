@@ -4,7 +4,7 @@ var BRACKET_URL = '/bracket.html',
     PRIZED_URL = '',
     BRACKET_LIST_URL = '/bracketlist.html',
     COMMAND_URL = '/command.html',
-    WER_URL = "/assets/werFiles/example.wer",
+    WER_URL = "../assets/werFiles/example.wer",
     BRACKET_SAVE_FILE = "/assets/php/jsonSave.php";
 
 $(document).ready(function () {
@@ -67,9 +67,6 @@ function updateBracket(cont, data) {
     
     //brackets data onto container
     cont.bracket(getJQBracketData(data));
-    
-    //populates buttons onto container
-    populateBracketButtons(cont);
 }
 //accepts init for bracket and returns data structure for bracket
 function getJQBracketData(d){
@@ -81,6 +78,12 @@ function getJQBracketData(d){
 
         disableToolbar: true,
         disableTeamEdit: true,
+        skipConsolationRound: true,
+
+        eventType: "Draft",
+
+        showPrizes: true,
+        showSeating: true,
 
         init: d,
         save: saveFn,
@@ -234,30 +237,5 @@ function getPrized(num) {
         return 'Incomplete';
     } else {
         return 'Complete';
-    }
-}
-
-function populateBracketButtons(cont) {
-    // createRoundButtons(1,4,cont);
-    // createRoundButtons(2,2,cont);
-    // createRoundButtons(3,1,cont);
-}
-
-function createRoundButtons(round,matches,cont) {
-    for(var match=1;match<=matches;match++) {
-        for(var player=1;player<=2;player++) {
-            var onclickFunction = 'updateWinner('+round+','+match+','+player+')';
-            var text = 'P'+player+' Win';
-            var buttonName = "r"+round+" m"+match;
-            if(round === 3) {
-                buttonName = 'fin';
-            }
-            buttonName+=" p"+player;
-            $('<button/>')
-                .addClass(buttonName)
-                .attr('onclick', onclickFunction)
-                .text(text)
-                .appendTo(cont);
-        }
     }
 }

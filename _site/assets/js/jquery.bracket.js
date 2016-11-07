@@ -955,6 +955,36 @@
                 }
             };
         }
+        function getSeatingIndex(i) {
+            var index=[0,1,2,3,4,5,6,7];
+            if(opts.eventType === "Draft") {
+                index=[0,4,2,6,1,5,3,7];
+            }
+            if(opts.eventType === "Constructed") {
+                index=[0,7,2,5,1,6,3,4];
+            }
+            return index[i];
+        }
+        function makeSeating(seatingCont, teams) {
+            var playerArray = [];
+            for(var i=0;i<teams.length;i++) {
+                for(var j=0;j<teams[i].length;j++) {
+                    var index = 2*i+j;
+                    playerArray[getSeatingIndex(index)] = teams[i][j].val;
+                }
+            }
+            var nEl;
+            for(var seat=0;seat < playerArray.length/2;seat++) {
+                nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
+                opts.decorator.render(nEl, playerArray[seat], null);
+            }
+            var tableElement = $('<div class=\"seatingTable\"></div>');
+            tableElement.appendTo(seatingCont);
+            for(seat=playerArray.length-1;seat >= playerArray.length/2;seat--) {
+                nEl = $("<div class=\"seat\" style=\"width: " + opts.teamWidth + "px;\"></div>").appendTo(seatingCont);
+                opts.decorator.render(nEl, playerArray[seat], null);
+            }
+        }
         /* wrap data to into necessary arrays */
         var r = wrap(data.results, 4 - depth(data.results));
         data.results = r;
@@ -965,7 +995,7 @@
         if (!opts.disableToolbar) {
             embedEditButtons(topCon, data, opts);
         }
-        var fEl, wEl, lEl;
+        var fEl, wEl, lEl, sEl;
         if (isSingleElimination) {
             wEl = $('<div class="bracket"></div>').appendTo(topCon);
         }
@@ -1006,6 +1036,10 @@
             if (!opts.skipGrandFinalComeback) {
                 prepareFinals(f, w, l, opts, topCon);
             }
+        }
+        if(opts.showSeating) {
+            sEl = $('<div class="seating"></div>').appendTo(topCon);
+            makeSeating(sEl,data.teams);
         }
         renderAll(false);
         return {

@@ -39,7 +39,7 @@ function eventString(e){
 }
 //accepts wer file path, returns event object
 function createEventWithWERfile(xmlsrc){
-    var doc
+    var doc;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
