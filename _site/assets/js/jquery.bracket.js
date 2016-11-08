@@ -690,7 +690,7 @@
         }
         data = opts.init;
         var topCon = $('<div class="jQBracket ' + opts.dir + '"></div>').appendTo(opts.el.empty());
-        var w, l, f;
+        var w, l, f, sEl;
         function renderAll(save) {
             resultIdentifier = 0;
             w.render();
@@ -712,6 +712,10 @@
                 if (opts.save) {
                     opts.save(exportData(data), opts.userData);
                 }
+            }
+            if(opts.showSeating) {
+                sEl.empty();
+                makeSeating(sEl,data.teams);
             }
         }
         function getOnClick(rId) {
@@ -995,7 +999,7 @@
             var playerArray = getPlayerArray(teams);
             var topRowEl = makeSeatingRow(playerArray,"top");
             topRowEl.appendTo(seatingCont);
-            var tableElement = $('<div class=\"seatingTable\"></div>');
+            var tableElement = $('<div class=\"seatingTable\">Seating Chart</div>');
             tableElement.appendTo(seatingCont);
             var bottomRowEl = makeSeatingRow(playerArray,"bottom");
             bottomRowEl.appendTo(seatingCont);
@@ -1010,7 +1014,7 @@
         if (!opts.disableToolbar) {
             embedEditButtons(topCon, data, opts);
         }
-        var fEl, wEl, lEl, sEl;
+        var fEl, wEl, lEl;
         if (isSingleElimination) {
             wEl = $('<div class="bracket"></div>').appendTo(topCon);
         }
@@ -1020,6 +1024,10 @@
             }
             wEl = $('<div class="bracket"></div>').appendTo(topCon);
             lEl = $('<div class="loserBracket"></div>').appendTo(topCon);
+        }
+        if(opts.showSeating) {
+            sEl = $('<div class="seating"></div>').appendTo(topCon);
+            makeSeating(sEl,data.teams);
         }
         // 45 === team height x2 + 1px margin
         var height = data.teams.length * 45 + data.teams.length * opts.matchMargin;
@@ -1051,10 +1059,6 @@
             if (!opts.skipGrandFinalComeback) {
                 prepareFinals(f, w, l, opts, topCon);
             }
-        }
-        if(opts.showSeating) {
-            sEl = $('<div class="seating"></div>').appendTo(topCon);
-            makeSeating(sEl,data.teams);
         }
         renderAll(false);
         return {

@@ -2410,7 +2410,7 @@ a.ui-button:active,
 .header {
   width: 100%;
   background: #ccc;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   vertical-align: middle; }
   .header .logo {
     display: inline-block;
@@ -2434,7 +2434,7 @@ a.ui-button:active,
 .footer {
   width: 100%;
   background: #ccc;
-  margin-top: 50px;
+  margin-top: 20px;
   vertical-align: middle; }
   .footer .logo {
     display: inline-block;
@@ -2466,7 +2466,7 @@ h3 {
   margin-bottom: 0px; }
 
 div#singlebracket {
-  height: 390px;
+  height: 444px;
   text-align: center;
   margin-left: 5%; }
   div#singlebracket div.jQBracket div.score {
@@ -2485,10 +2485,12 @@ div#singlebracket {
     margin-left: -5%; }
     div#singlebracket div.jQBracket div.seating div.seatingTable {
       width: 80%;
-      height: 20px;
+      height: 40px;
       border: 1px solid black;
       margin-left: 10%;
-      margin-right: 10%; }
+      margin-right: 10%;
+      font-size: 30px;
+      veritcal-align: middle; }
     div#singlebracket div.jQBracket div.seating div.seat {
       display: inline-block;
       padding: 10px 3% 10px 3%; }

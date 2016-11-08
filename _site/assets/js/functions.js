@@ -77,7 +77,6 @@ function getJQBracketData(d){
         roundMargin: 150,
 
         disableToolbar: true,
-        disableTeamEdit: true,
         skipConsolationRound: true,
 
         eventType: "Draft",
@@ -95,7 +94,7 @@ function buildBracketList() {
     var bracket
     $("div#jsGrid").jsGrid({
         width: "80%",
-        height: "430px",
+        height: "466px",
  
         sorting: true,
  

@@ -94,7 +94,7 @@ function buildBracketList() {
     var bracket
     $("div#jsGrid").jsGrid({
         width: "80%",
-        height: "430px",
+        height: "466px",
  
         sorting: true,
  
